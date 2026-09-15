@@ -292,8 +292,6 @@
 
     <div class="card">
 
-      <!-- CATEGORY -->
-
       <div class="field">
 
         <label>
@@ -312,8 +310,6 @@
       </div>
 
 
-      <!-- CUSTOMER -->
-
       <div class="field">
 
         <label>
@@ -330,8 +326,6 @@
       </div>
 
 
-      <!-- LOCATION -->
-
       <div class="field">
 
         <label>
@@ -347,8 +341,6 @@
       </div>
 
 
-      <!-- DETAIL -->
-
       <div class="field">
 
         <label>
@@ -363,8 +355,6 @@
 
       </div>
 
-
-      <!-- ASSIGNEES -->
 
       <div class="field">
 
@@ -408,8 +398,6 @@
       </div>
 
 
-      <!-- REVIEWER -->
-
       <div class="field">
 
         <label>
@@ -427,8 +415,6 @@
       </div>
 
 
-      <!-- DUE DATE -->
-
       <div class="field">
 
         <label>
@@ -443,8 +429,6 @@
 
       </div>
 
-
-      <!-- SAVE -->
 
       <button
         id="saveButton"
@@ -462,8 +446,6 @@
       ></div>
 
 
-      <!-- SUCCESS -->
-
       <div
         id="successBox"
         class="success"
@@ -477,8 +459,6 @@
 
       </div>
 
-
-      <!-- ERROR -->
 
       <div
         id="errorBox"
@@ -494,49 +474,26 @@
 
 <script>
 
-/* =====================================================
-   CONFIG
-===================================================== */
-
 var LIFF_ID =
   '2011608457-HhlDakb3';
-
 
 var API_URL =
   'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
 
 
-/* =====================================================
-   GLOBAL VARIABLES
-===================================================== */
-
 var currentUser = null;
-
 var users = [];
-
 var selectedAssignees = [];
-
 var systemStarted = false;
 
-
-/* =====================================================
-   START SYSTEM
-===================================================== */
 
 window.addEventListener(
   'load',
   function() {
 
-    /*
-     * รอให้หน้าเว็บพร้อมก่อนเริ่มระบบ
-     * ป้องกันปัญหา LIFF SDK ยังไม่พร้อม
-     */
-
     setTimeout(
       function() {
-
         startSystem();
-
       },
       300
     );
@@ -544,10 +501,6 @@ window.addEventListener(
   }
 );
 
-
-/* =====================================================
-   START SYSTEM
-===================================================== */
 
 async function startSystem() {
 
@@ -557,19 +510,12 @@ async function startSystem() {
 
   systemStarted = true;
 
-
   try {
 
     setLoading(
       'กำลังตรวจสอบ LINE...',
       'เริ่มต้นระบบ'
     );
-
-
-    /* -----------------------------------------------
-       STEP 1
-       CHECK LIFF SDK
-    ----------------------------------------------- */
 
     if (
       typeof liff === 'undefined'
@@ -581,17 +527,10 @@ async function startSystem() {
 
     }
 
-
     setLoading(
       'กำลังเริ่มระบบ LINE...',
       'พบ LIFF SDK แล้ว'
     );
-
-
-    /* -----------------------------------------------
-       STEP 2
-       LIFF INIT
-    ----------------------------------------------- */
 
     await withTimeout(
       liff.init({
@@ -602,44 +541,16 @@ async function startSystem() {
       'LIFF ใช้เวลาเชื่อมต่อนานเกินไป'
     );
 
-
     console.log(
       '✅ LIFF INIT SUCCESS'
     );
 
-
-    console.log(
-      'isLoggedIn:',
-      liff.isLoggedIn()
-    );
-
-
-    console.log(
-      'isInClient:',
-      liff.isInClient()
-    );
-
-
-    setLoading(
-      'ตรวจสอบการเข้าสู่ระบบ...',
-      'LIFF พร้อมใช้งาน'
-    );
-
-
-    /* -----------------------------------------------
-       STEP 3
-       LOGIN
-    ----------------------------------------------- */
-
-    if (
-      !liff.isLoggedIn()
-    ) {
+    if (!liff.isLoggedIn()) {
 
       setLoading(
         'กำลังเข้าสู่ระบบ LINE...',
         'ยังไม่ได้ Login'
       );
-
 
       liff.login();
 
@@ -647,17 +558,10 @@ async function startSystem() {
 
     }
 
-
-    /* -----------------------------------------------
-       STEP 4
-       GET PROFILE
-    ----------------------------------------------- */
-
     setLoading(
       'กำลังอ่านข้อมูล LINE...',
       'เข้าสู่ระบบแล้ว'
     );
-
 
     var profile =
       await withTimeout(
@@ -665,13 +569,6 @@ async function startSystem() {
         15000,
         'ไม่สามารถอ่านข้อมูล LINE ได้'
       );
-
-
-    console.log(
-      '✅ PROFILE SUCCESS',
-      profile
-    );
-
 
     if (
       !profile ||
@@ -684,7 +581,6 @@ async function startSystem() {
 
     }
 
-
     currentUser = {
 
       userId:
@@ -695,24 +591,11 @@ async function startSystem() {
 
     };
 
-
-    console.log(
-      '👤 CURRENT USER:',
-      currentUser
-    );
-
-
     setLoading(
       'กำลังโหลดข้อมูลระบบ...',
       'LINE: ' +
       currentUser.displayName
     );
-
-
-    /* -----------------------------------------------
-       STEP 5
-       LOAD API DATA
-    ----------------------------------------------- */
 
     var data =
       await apiGet(
@@ -727,12 +610,6 @@ async function startSystem() {
 
         }
       );
-
-
-    console.log(
-      '✅ INITIAL DATA SUCCESS',
-      data
-    );
 
 
     if (
@@ -750,11 +627,6 @@ async function startSystem() {
     }
 
 
-    /* -----------------------------------------------
-       STEP 6
-       STORE DATA
-    ----------------------------------------------- */
-
     currentUser =
       data.user ||
       currentUser;
@@ -768,31 +640,7 @@ async function startSystem() {
         : [];
 
 
-    console.log(
-      '👤 USER:',
-      currentUser
-    );
-
-
-    console.log(
-      '👥 USERS:',
-      users
-    );
-
-
-    console.log(
-      '📂 CATEGORIES:',
-      data.categories
-    );
-
-
-    /* -----------------------------------------------
-       STEP 7
-       RENDER
-    ----------------------------------------------- */
-
     renderCurrentUser();
-
 
     renderCategories(
       Array.isArray(
@@ -802,20 +650,12 @@ async function startSystem() {
         : []
     );
 
-
     renderUsers();
-
 
     renderSelectedAssignees();
 
-
     renderAssigneeSelect();
 
-
-    /* -----------------------------------------------
-       STEP 8
-       SHOW MAIN PAGE
-    ----------------------------------------------- */
 
     document
       .getElementById(
@@ -836,10 +676,6 @@ async function startSystem() {
     setStatus('');
 
 
-    console.log(
-      '🎉 PPM WORK PLAN READY'
-    );
-
   }
 
   catch (error) {
@@ -849,9 +685,7 @@ async function startSystem() {
       error
     );
 
-
     systemStarted = false;
-
 
     showFatalError(
       error &&
@@ -865,10 +699,6 @@ async function startSystem() {
 }
 
 
-/* =====================================================
-   TIMEOUT HELPER
-===================================================== */
-
 function withTimeout(
   promise,
   milliseconds,
@@ -881,7 +711,6 @@ function withTimeout(
       var finished =
         false;
 
-
       var timer =
         setTimeout(
           function() {
@@ -890,9 +719,7 @@ function withTimeout(
               return;
             }
 
-
             finished = true;
-
 
             reject(
               new Error(
@@ -915,18 +742,13 @@ function withTimeout(
               return;
             }
 
-
             finished = true;
-
 
             clearTimeout(
               timer
             );
 
-
-            resolve(
-              value
-            );
+            resolve(value);
 
           }
         )
@@ -937,18 +759,13 @@ function withTimeout(
               return;
             }
 
-
             finished = true;
-
 
             clearTimeout(
               timer
             );
 
-
-            reject(
-              error
-            );
+            reject(error);
 
           }
         );
@@ -958,10 +775,6 @@ function withTimeout(
 
 }
 
-
-/* =====================================================
-   JSONP API
-===================================================== */
 
 function apiGet(
   action,
@@ -979,16 +792,13 @@ function apiGet(
           Math.random() * 1000000
         );
 
-
       var script =
         document.createElement(
           'script'
         );
 
-
       var finished =
         false;
-
 
       var timeoutId =
         null;
@@ -997,13 +807,8 @@ function apiGet(
       function cleanup() {
 
         if (timeoutId) {
-
-          clearTimeout(
-            timeoutId
-          );
-
+          clearTimeout(timeoutId);
         }
-
 
         try {
 
@@ -1020,7 +825,6 @@ function apiGet(
           ] = undefined;
 
         }
-
 
         if (
           script &&
@@ -1044,16 +848,11 @@ function apiGet(
           return;
         }
 
-
         finished = true;
-
 
         cleanup();
 
-
-        resolve(
-          data
-        );
+        resolve(data);
 
       }
 
@@ -1066,23 +865,14 @@ function apiGet(
           return;
         }
 
-
         finished = true;
-
 
         cleanup();
 
-
-        reject(
-          error
-        );
+        reject(error);
 
       }
 
-
-      /* -------------------------------------------
-         CALLBACK
-      ------------------------------------------- */
 
       window[
         callbackName
@@ -1093,17 +883,10 @@ function apiGet(
           data
         );
 
-
-        finishSuccess(
-          data
-        );
+        finishSuccess(data);
 
       };
 
-
-      /* -------------------------------------------
-         SCRIPT ERROR
-      ------------------------------------------- */
 
       script.onerror =
         function() {
@@ -1117,26 +900,18 @@ function apiGet(
         };
 
 
-      /* -------------------------------------------
-         BUILD QUERY
-      ------------------------------------------- */
-
       var query = [];
 
 
       query.push(
         'action=' +
-        encodeURIComponent(
-          action
-        )
+        encodeURIComponent(action)
       );
 
 
       query.push(
         'callback=' +
-        encodeURIComponent(
-          callbackName
-        )
+        encodeURIComponent(callbackName)
       );
 
 
@@ -1154,16 +929,12 @@ function apiGet(
           function(key) {
 
             if (
-              params[key] !==
-              undefined &&
-              params[key] !==
-              null
+              params[key] !== undefined &&
+              params[key] !== null
             ) {
 
               query.push(
-                encodeURIComponent(
-                  key
-                ) +
+                encodeURIComponent(key) +
                 '=' +
                 encodeURIComponent(
                   params[key]
@@ -1190,24 +961,14 @@ function apiGet(
       );
 
 
-      /* -------------------------------------------
-         ADD SCRIPT
-      ------------------------------------------- */
-
       script.src =
         url;
 
 
       document
         .head
-        .appendChild(
-          script
-        );
+        .appendChild(script);
 
-
-      /* -------------------------------------------
-         TIMEOUT
-      ------------------------------------------- */
 
       timeoutId =
         setTimeout(
@@ -1228,10 +989,6 @@ function apiGet(
 
 }
 
-
-/* =====================================================
-   SAVE JOB
-===================================================== */
 
 async function saveJob() {
 
@@ -1279,10 +1036,6 @@ async function saveJob() {
 
   hideMessages();
 
-
-  /* -----------------------------------------------
-     VALIDATION
-  ----------------------------------------------- */
 
   if (!category) {
 
@@ -1355,17 +1108,11 @@ async function saveJob() {
   }
 
 
-  /* -----------------------------------------------
-     BUTTON
-  ----------------------------------------------- */
-
   button.disabled =
     true;
 
-
   button.innerText =
     'กำลังเพิ่มงาน...';
-
 
   setStatus(
     'กำลังบันทึกงาน...'
@@ -1378,23 +1125,17 @@ async function saveJob() {
       selectedAssignees
         .map(
           function(user) {
-
             return user.userId;
-
           }
         )
         .join(',');
 
 
-    console.log(
-      'ASSIGNEE IDS:',
-      assigneeIds
-    );
-
-
-    /* -------------------------------------------
-       SAVE API
-    ------------------------------------------- */
+    /*
+     * สำคัญ:
+     * Backend Code.gs ใช้ params.description
+     * ดังนั้นตรงนี้ต้องส่ง description
+     */
 
     var data =
       await apiGet(
@@ -1410,7 +1151,7 @@ async function saveJob() {
           location:
             location,
 
-          detail:
+          description:
             detail,
 
           assigneeIds:
@@ -1450,10 +1191,6 @@ async function saveJob() {
     }
 
 
-    /* -------------------------------------------
-       SUCCESS
-    ------------------------------------------- */
-
     var jobId =
       data.jobId ||
       data.id ||
@@ -1466,9 +1203,7 @@ async function saveJob() {
       )
       .innerHTML =
         'รหัสงาน: <strong>' +
-        escapeHtml(
-          jobId
-        ) +
+        escapeHtml(jobId) +
         '</strong>';
 
 
@@ -1482,10 +1217,6 @@ async function saveJob() {
 
     setStatus('');
 
-
-    /* -------------------------------------------
-       RESET FORM
-    ------------------------------------------- */
 
     document
       .getElementById(
@@ -1535,12 +1266,10 @@ async function saveJob() {
         '';
 
 
-    selectedAssignees =
-      [];
+    selectedAssignees = [];
 
 
     renderSelectedAssignees();
-
 
     renderAssigneeSelect();
 
@@ -1569,7 +1298,6 @@ async function saveJob() {
     button.disabled =
       false;
 
-
     button.innerText =
       'เพิ่มงาน';
 
@@ -1578,10 +1306,6 @@ async function saveJob() {
 }
 
 
-/* =====================================================
-   RENDER CURRENT USER
-===================================================== */
-
 function renderCurrentUser() {
 
   var el =
@@ -1589,11 +1313,9 @@ function renderCurrentUser() {
       'currentUserName'
     );
 
-
   if (!el) {
     return;
   }
-
 
   el.textContent =
     currentUser &&
@@ -1604,10 +1326,6 @@ function renderCurrentUser() {
 }
 
 
-/* =====================================================
-   RENDER CATEGORIES
-===================================================== */
-
 function renderCategories(
   categories
 ) {
@@ -1617,11 +1335,9 @@ function renderCategories(
       'category'
     );
 
-
   if (!select) {
     return;
   }
-
 
   select.innerHTML =
     '<option value="">เลือกหมวดหมู่</option>';
@@ -1635,14 +1351,11 @@ function renderCategories(
           'option'
         );
 
-
       option.value =
         category;
 
-
       option.textContent =
         category;
-
 
       select.appendChild(
         option
@@ -1654,10 +1367,6 @@ function renderCategories(
 }
 
 
-/* =====================================================
-   RENDER USERS / REVIEWERS
-===================================================== */
-
 function renderUsers() {
 
   var reviewer =
@@ -1665,11 +1374,9 @@ function renderUsers() {
       'reviewer'
     );
 
-
   if (!reviewer) {
     return;
   }
-
 
   reviewer.innerHTML =
     '<option value="">เลือกผู้ตรวจ</option>';
@@ -1685,22 +1392,18 @@ function renderUsers() {
         return;
       }
 
-
       var option =
         document.createElement(
           'option'
         );
 
-
       option.value =
         user.userId;
-
 
       option.textContent =
         user.name ||
         user.displayName ||
         '-';
-
 
       reviewer.appendChild(
         option
@@ -1712,10 +1415,6 @@ function renderUsers() {
 }
 
 
-/* =====================================================
-   RENDER ASSIGNEE SELECT
-===================================================== */
-
 function renderAssigneeSelect() {
 
   var select =
@@ -1723,11 +1422,9 @@ function renderAssigneeSelect() {
       'assigneeSelect'
     );
 
-
   if (!select) {
     return;
   }
-
 
   select.innerHTML =
     '<option value="">+ เพิ่มผู้รับผิดชอบ</option>';
@@ -1757,12 +1454,8 @@ function renderAssigneeSelect() {
         );
 
 
-      if (
-        alreadySelected
-      ) {
-
+      if (alreadySelected) {
         return;
-
       }
 
 
@@ -1771,16 +1464,13 @@ function renderAssigneeSelect() {
           'option'
         );
 
-
       option.value =
         user.userId;
-
 
       option.textContent =
         user.name ||
         user.displayName ||
         '-';
-
 
       select.appendChild(
         option
@@ -1795,7 +1485,6 @@ function renderAssigneeSelect() {
 
       var userId =
         this.value;
-
 
       if (!userId) {
         return;
@@ -1829,9 +1518,7 @@ function renderAssigneeSelect() {
         )
       ) {
 
-        selectedAssignees.push(
-          user
-        );
+        selectedAssignees.push(user);
 
       }
 
@@ -1839,9 +1526,7 @@ function renderAssigneeSelect() {
       this.value =
         '';
 
-
       renderSelectedAssignees();
-
 
       renderAssigneeSelect();
 
@@ -1850,17 +1535,12 @@ function renderAssigneeSelect() {
 }
 
 
-/* =====================================================
-   RENDER SELECTED ASSIGNEES
-===================================================== */
-
 function renderSelectedAssignees() {
 
   var container =
     document.getElementById(
       'assigneeList'
     );
-
 
   if (!container) {
     return;
@@ -1875,7 +1555,6 @@ function renderSelectedAssignees() {
       '<div class="assignee-empty">' +
       'ยังไม่ได้เลือกผู้รับผิดชอบ' +
       '</div>';
-
 
     return;
 
@@ -1893,7 +1572,6 @@ function renderSelectedAssignees() {
         document.createElement(
           'div'
         );
-
 
       chip.className =
         'assignee-chip';
@@ -1929,10 +1607,6 @@ function renderSelectedAssignees() {
 }
 
 
-/* =====================================================
-   REMOVE ASSIGNEE
-===================================================== */
-
 function removeAssignee(
   index
 ) {
@@ -1942,18 +1616,12 @@ function removeAssignee(
     1
   );
 
-
   renderSelectedAssignees();
-
 
   renderAssigneeSelect();
 
 }
 
-
-/* =====================================================
-   LOADING UI
-===================================================== */
 
 function setLoading(
   message,
@@ -1990,10 +1658,6 @@ function setLoading(
 }
 
 
-/* =====================================================
-   STATUS
-===================================================== */
-
 function setStatus(
   message
 ) {
@@ -2013,10 +1677,6 @@ function setStatus(
 
 }
 
-
-/* =====================================================
-   HIDE MESSAGES
-===================================================== */
 
 function hideMessages() {
 
@@ -2050,10 +1710,6 @@ function hideMessages() {
 }
 
 
-/* =====================================================
-   SHOW ERROR
-===================================================== */
-
 function showError(
   message
 ) {
@@ -2079,10 +1735,6 @@ function showError(
 
 }
 
-
-/* =====================================================
-   FATAL ERROR
-===================================================== */
 
 function showFatalError(
   message
@@ -2111,9 +1763,7 @@ function showFatalError(
 
     '<div style="margin-top:10px;font-size:14px;">' +
 
-    escapeHtml(
-      message
-    ) +
+    escapeHtml(message) +
 
     '</div>' +
 
@@ -2133,10 +1783,6 @@ function showFatalError(
 
 }
 
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
 
 function escapeHtml(
   value
