@@ -1,8 +1,7 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
-
 <head>
-
   <meta charset="UTF-8">
 
   <meta
@@ -10,7 +9,7 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>PPM Task System</title>
+  <title>PPM Work Plan</title>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
@@ -22,75 +21,74 @@
 
     body {
       margin: 0;
-      padding: 16px;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
       background: #f5f6f8;
       color: #222;
-      font-family:
-        Arial,
-        "Noto Sans Thai",
-        sans-serif;
     }
 
     .container {
-      max-width: 720px;
+      width: 100%;
+      max-width: 680px;
       margin: auto;
+      padding: 20px 16px 40px;
     }
 
     .header {
-      background: #111;
-      color: #fff;
-      border-radius: 18px;
-      padding: 22px;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     .header h1 {
-      margin: 0 0 5px;
-      font-size: 24px;
+      margin: 0 0 6px;
+      font-size: 25px;
     }
 
     .header p {
       margin: 0;
-      color: #aaa;
-      font-size: 13px;
+      color: #777;
+      font-size: 14px;
+    }
+
+    .user-box {
+      background: white;
+      border-radius: 16px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      box-shadow:
+        0 2px 10px rgba(0,0,0,.05);
+    }
+
+    .user-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+
+    .user-name {
+      font-size: 16px;
+      font-weight: 600;
     }
 
     .card {
-      background: #fff;
+      background: white;
       border-radius: 18px;
-      padding: 20px;
+      padding: 18px;
       box-shadow:
-        0 3px 15px rgba(0,0,0,.06);
-    }
-
-    .status {
-      padding: 12px;
-      border-radius: 10px;
-      margin-bottom: 18px;
-      background: #f0f1f3;
-      color: #555;
-      font-size: 13px;
-    }
-
-    .success {
-      background: #eaf8ef;
-      color: #16803c;
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #c62828;
+        0 2px 12px rgba(0,0,0,.05);
     }
 
     .field {
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     label {
       display: block;
+      margin-bottom: 7px;
       font-size: 14px;
       font-weight: 600;
-      margin-bottom: 7px;
     }
 
     .required {
@@ -98,17 +96,22 @@
     }
 
     input,
-    select,
-    textarea {
+    textarea,
+    select {
       width: 100%;
-      padding: 12px;
-      border:
-        1px solid #ddd;
-      border-radius: 10px;
+      border: 1px solid #ddd;
+      border-radius: 11px;
+      padding: 12px 13px;
       font-size: 15px;
       font-family: inherit;
-      background: #fff;
+      background: white;
       outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #111;
     }
 
     textarea {
@@ -116,131 +119,184 @@
       resize: vertical;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
-      border-color: #111;
+    .assignee-box {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns:
-        1fr 1fr;
-      gap: 14px;
+    .assignee-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      min-height: 30px;
     }
 
-    .user-box {
-      background: #f7f7f7;
-      border-radius: 10px;
-      padding: 12px;
+    .assignee-empty {
+      color: #999;
+      font-size: 14px;
+      padding: 4px;
     }
 
-    .user-name {
-      font-weight: 600;
+    .assignee-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #f0f1f3;
+      border-radius: 999px;
+      padding: 7px 11px;
+      font-size: 13px;
     }
 
-    .user-role {
-      font-size: 12px;
+    .assignee-chip button {
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      font-size: 16px;
+      line-height: 1;
       color: #777;
-      margin-top: 3px;
     }
 
-    button {
+    .assignee-select {
+      margin-top: 10px;
+    }
+
+    .assignee-select select {
       width: 100%;
-      border: 0;
+    }
+
+    .hint {
+      font-size: 12px;
+      color: #888;
+      margin-top: 7px;
+    }
+
+    .button {
+      width: 100%;
+      border: none;
       border-radius: 12px;
       padding: 14px;
-      background: #111;
-      color: #fff;
       font-size: 16px;
       font-weight: 600;
+      cursor: pointer;
+      background: #111;
+      color: white;
     }
 
-    button:disabled {
+    .button:disabled {
       opacity: .5;
+      cursor: not-allowed;
     }
 
-    .result {
-      display: none;
-      margin-top: 18px;
-      padding: 18px;
-      background: #eaf8ef;
+    .status {
+      text-align: center;
+      margin: 15px 0;
+      font-size: 14px;
+      color: #777;
+    }
+
+    .success {
+      background: #eef8ef;
+      color: #24752b;
       border-radius: 12px;
-      color: #176b37;
+      padding: 15px;
+      margin-top: 15px;
+      display: none;
     }
 
-    .job-id {
-      font-size: 20px;
-      font-weight: 700;
-      margin: 5px 0;
+    .success strong {
+      display: block;
+      margin-bottom: 4px;
     }
 
-    @media (max-width: 600px) {
+    .error {
+      background: #fff0f0;
+      color: #c62828;
+      border-radius: 12px;
+      padding: 13px;
+      margin-top: 15px;
+      display: none;
+    }
 
-      .grid {
-        grid-template-columns: 1fr;
-      }
-
-      body {
-        padding: 10px;
-      }
-
+    .loading {
+      text-align: center;
+      padding: 40px 20px;
+      color: #777;
     }
 
   </style>
-
 </head>
 
 
 <body>
 
-<div class="container">
+  <div class="container">
 
-  <div class="header">
+    <div class="header">
 
-    <h1>เพิ่มงานใหม่</h1>
+      <h1>เพิ่มงานใหม่</h1>
 
-    <p>
-      PPM Task Management System
-    </p>
+      <p>
+        PPM Work Plan
+      </p>
 
-  </div>
+    </div>
 
-
-  <div class="card">
 
     <div
-      id="status"
-      class="status"
+      id="loading"
+      class="loading"
     >
       กำลังเชื่อมต่อ LINE...
     </div>
 
 
-    <form id="jobForm">
+    <div
+      id="mainContent"
+      style="display:none;"
+    >
 
-      <div class="field">
+      <div class="user-box">
 
-        <label>
-          หมวดหมู่งาน
-          <span class="required">*</span>
-        </label>
+        <div class="user-label">
+          ผู้บันทึกงาน
+        </div>
 
-        <select
-          id="category"
-          required
+        <div
+          id="currentUserName"
+          class="user-name"
         >
-
-          <option value="">
-            กำลังโหลด...
-          </option>
-
-        </select>
+          -
+        </div>
 
       </div>
 
 
-      <div class="grid">
+      <div class="card">
+
+        <!-- หมวดหมู่ -->
+
+        <div class="field">
+
+          <label>
+            หมวดหมู่งาน
+            <span class="required">*</span>
+          </label>
+
+          <select id="category">
+
+            <option value="">
+              เลือกหมวดหมู่
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- ลูกค้า -->
 
         <div class="field">
 
@@ -252,12 +308,13 @@
           <input
             id="customer"
             type="text"
-            placeholder="ชื่อลูกค้า"
-            required
+            placeholder="ระบุชื่อลูกค้า"
           >
 
         </div>
 
+
+        <!-- สถานที่ -->
 
         <div class="field">
 
@@ -268,31 +325,30 @@
           <input
             id="location"
             type="text"
-            placeholder="สถานที่"
+            placeholder="ระบุสถานที่"
           >
 
         </div>
 
-      </div>
+
+        <!-- รายละเอียด -->
+
+        <div class="field">
+
+          <label>
+            รายละเอียดงาน
+            <span class="required">*</span>
+          </label>
+
+          <textarea
+            id="detail"
+            placeholder="รายละเอียดงานที่ต้องทำ"
+          ></textarea>
+
+        </div>
 
 
-      <div class="field">
-
-        <label>
-          รายละเอียดงาน
-          <span class="required">*</span>
-        </label>
-
-        <textarea
-          id="detail"
-          placeholder="รายละเอียดงาน / สิ่งที่ต้องทำ"
-          required
-        ></textarea>
-
-      </div>
-
-
-      <div class="grid">
+        <!-- ผู้รับผิดชอบหลายคน -->
 
         <div class="field">
 
@@ -301,813 +357,1032 @@
             <span class="required">*</span>
           </label>
 
-          <select
-            id="assignee"
-            required
-          >
 
-            <option value="">
-              กำลังโหลด...
-            </option>
+          <div class="assignee-box">
 
-          </select>
+            <div
+              id="assigneeList"
+              class="assignee-list"
+            >
+
+              <div class="assignee-empty">
+                ยังไม่ได้เลือกผู้รับผิดชอบ
+              </div>
+
+            </div>
+
+
+            <div class="assignee-select">
+
+              <select id="assigneeSelect">
+
+                <option value="">
+                  + เพิ่มผู้รับผิดชอบ
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <div class="hint">
+            สามารถเลือกผู้รับผิดชอบได้มากกว่า 1 คน
+          </div>
 
         </div>
 
 
+        <!-- ผู้ตรวจ -->
+
         <div class="field">
 
           <label>
-            ผู้ตรวจงาน
+            ผู้ตรวจ
           </label>
 
           <select id="reviewer">
 
             <option value="">
-              ไม่ระบุ
+              เลือกผู้ตรวจ
             </option>
 
           </select>
 
         </div>
 
-      </div>
 
+        <!-- กำหนดส่ง -->
 
-      <div class="field">
+        <div class="field">
 
-        <label>
-          กำหนดส่ง
-          <span class="required">*</span>
-        </label>
+          <label>
+            กำหนดส่ง
+            <span class="required">*</span>
+          </label>
 
-        <input
-          id="dueDate"
-          type="date"
-          required
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          ผู้บันทึกงาน
-        </label>
-
-        <div class="user-box">
-
-          <div
-            id="userName"
-            class="user-name"
+          <input
+            id="dueDate"
+            type="date"
           >
-            กำลังโหลด...
-          </div>
-
-          <div
-            id="userRole"
-            class="user-role"
-          >
-            -
-          </div>
 
         </div>
 
-      </div>
+
+        <button
+          id="saveButton"
+          class="button"
+          onclick="saveJob()"
+        >
+          เพิ่มงาน
+        </button>
 
 
-      <button
-        id="saveButton"
-        type="submit"
-        disabled
-      >
-        บันทึกงาน
-      </button>
-
-    </form>
+        <div
+          id="status"
+          class="status"
+        ></div>
 
 
-    <div
-      id="result"
-      class="result"
-    >
+        <div
+          id="successBox"
+          class="success"
+        >
 
-      <div>
-        สร้างงานเรียบร้อยแล้ว
-      </div>
+          <strong>
+            เพิ่มงานเรียบร้อยแล้ว 🎉
+          </strong>
 
-      <div
-        id="jobId"
-        class="job-id"
-      ></div>
+          <div id="successMessage"></div>
 
-      <div>
-        สถานะ: รอดำเนินการ
+        </div>
+
+
+        <div
+          id="errorBox"
+          class="error"
+        ></div>
+
       </div>
 
     </div>
 
   </div>
 
-</div>
-
 
 <script>
 
-const LIFF_ID =
-  '2011608457-HhlDakb3';
-
-const API_URL =
-  'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
+  const LIFF_ID =
+    '2011608457-HhlDakb3';
 
 
-let currentUser = null;
-let users = [];
-let categories = [];
+  const API_URL =
+    'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
 
 
-const statusBox =
-  document.getElementById('status');
+  let currentUser = null;
 
-const saveButton =
-  document.getElementById('saveButton');
+  let users = [];
 
-const jobForm =
-  document.getElementById('jobForm');
+  let selectedAssignees = [];
 
 
-/* =====================================================
-   START
-===================================================== */
+  /* =================================================
+   * START
+   * ================================================= */
 
-window.addEventListener(
-  'load',
-  start
-);
+  window.addEventListener(
+    'load',
+    startSystem
+  );
 
 
-async function start() {
+  async function startSystem() {
 
-  try {
+    try {
 
-    setStatus(
-      'กำลังโหลด LINE...',
-      'normal'
+      setStatus(
+        'กำลังโหลด LINE...'
+      );
+
+
+      await liff.init({
+
+        liffId: LIFF_ID,
+
+        withLoginOnExternalBrowser: true
+
+      });
+
+
+      if (!liff.isLoggedIn()) {
+
+        liff.login();
+
+        return;
+
+      }
+
+
+      const profile =
+        await liff.getProfile();
+
+
+      currentUser = {
+
+        userId:
+          profile.userId,
+
+        displayName:
+          profile.displayName
+
+      };
+
+
+      setStatus(
+        'กำลังโหลดข้อมูลระบบ...'
+      );
+
+
+      const data =
+        await apiGet(
+          'initialData',
+          {
+
+            userId:
+              currentUser.userId,
+
+            displayName:
+              currentUser.displayName
+
+          }
+        );
+
+
+      if (!data.success) {
+
+        throw new Error(
+          data.error ||
+          'ไม่สามารถโหลดข้อมูลได้'
+        );
+
+      }
+
+
+      currentUser =
+        data.user;
+
+      users =
+        data.users || [];
+
+
+      renderCurrentUser();
+
+      renderCategories(
+        data.categories || []
+      );
+
+      renderUsers();
+
+      renderAssigneeSelect();
+
+
+      document
+        .getElementById('loading')
+        .style.display = 'none';
+
+
+      document
+        .getElementById('mainContent')
+        .style.display = 'block';
+
+
+      setStatus('');
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      document
+        .getElementById('loading')
+        .innerText =
+          'เกิดข้อผิดพลาด: ' +
+          (error.message || error);
+
+    }
+
+  }
+
+
+  /* =================================================
+   * API JSONP
+   * ================================================= */
+
+  function apiGet(
+    action,
+    params
+  ) {
+
+    return new Promise(
+      function(resolve, reject) {
+
+        const callbackName =
+          'ppmCallback_' +
+          Date.now() +
+          '_' +
+          Math.floor(
+            Math.random() * 100000
+          );
+
+
+        const query =
+          new URLSearchParams({
+
+            action: action,
+
+            callback: callbackName,
+
+            ...params
+
+          });
+
+
+        const script =
+          document.createElement(
+            'script'
+          );
+
+
+        const timeout =
+          setTimeout(
+            function() {
+
+              cleanup();
+
+              reject(
+                new Error(
+                  'API timeout'
+                )
+              );
+
+            },
+            20000
+          );
+
+
+        window[callbackName] =
+          function(data) {
+
+            cleanup();
+
+            resolve(data);
+
+          };
+
+
+        function cleanup() {
+
+          clearTimeout(timeout);
+
+          delete window[callbackName];
+
+          if (script.parentNode) {
+
+            script.parentNode.removeChild(
+              script
+            );
+
+          }
+
+        }
+
+
+        script.onerror =
+          function() {
+
+            cleanup();
+
+            reject(
+              new Error(
+                'ไม่สามารถเชื่อมต่อระบบได้'
+              )
+            );
+
+          };
+
+
+        script.src =
+          API_URL +
+          '?' +
+          query.toString();
+
+
+        document
+          .body
+          .appendChild(script);
+
+      }
     );
 
-
-    await liff.init({
-
-      liffId:
-        LIFF_ID,
-
-      withLoginOnExternalBrowser:
-        true
-
-    });
+  }
 
 
-    console.log(
-      'LIFF initialized'
+  /* =================================================
+   * RENDER
+   * ================================================= */
+
+  function renderCurrentUser() {
+
+    document
+      .getElementById(
+        'currentUserName'
+      )
+      .textContent =
+        currentUser.systemName ||
+        currentUser.displayName ||
+        '-';
+
+  }
+
+
+  function renderCategories(
+    categories
+  ) {
+
+    const select =
+      document.getElementById(
+        'category'
+      );
+
+
+    categories.forEach(
+      function(category) {
+
+        const option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          category;
+
+        option.textContent =
+          category;
+
+        select.appendChild(
+          option
+        );
+
+      }
     );
 
-    console.log(
-      'In client:',
-      liff.isInClient()
-    );
+  }
 
-    console.log(
-      'Logged in:',
-      liff.isLoggedIn()
-    );
+
+  function renderUsers() {
+
+    const reviewer =
+      document.getElementById(
+        'reviewer'
+      );
 
 
     /*
-     * ถ้าเปิดนอก LINE
-     * ให้ login อัตโนมัติ
+     * ผู้ตรวจ
      */
 
-    if (!liff.isLoggedIn()) {
+    users.forEach(
+      function(user) {
 
-      liff.login();
+        const option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          user.userId;
+
+        option.textContent =
+          user.name;
+
+        reviewer.appendChild(
+          option
+        );
+
+      }
+    );
+
+  }
+
+
+  function renderAssigneeSelect() {
+
+    const select =
+      document.getElementById(
+        'assigneeSelect'
+      );
+
+
+    /*
+     * ล้าง option เดิม
+     */
+
+    select.innerHTML = '';
+
+
+    const firstOption =
+      document.createElement(
+        'option'
+      );
+
+    firstOption.value = '';
+
+    firstOption.textContent =
+      '+ เพิ่มผู้รับผิดชอบ';
+
+    select.appendChild(
+      firstOption
+    );
+
+
+    users.forEach(
+      function(user) {
+
+        /*
+         * ถ้าเลือกไปแล้ว
+         * ไม่ต้องแสดงซ้ำ
+         */
+
+        const alreadySelected =
+          selectedAssignees
+            .some(
+              function(item) {
+
+                return (
+                  item.userId ===
+                  user.userId
+                );
+
+              }
+            );
+
+
+        if (
+          alreadySelected
+        ) {
+
+          return;
+
+        }
+
+
+        const option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          user.userId;
+
+        /*
+         * สำคัญ:
+         * แสดงเฉพาะชื่อ
+         * ไม่แสดง Role
+         */
+
+        option.textContent =
+          user.name;
+
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    select.onchange =
+      function() {
+
+        const userId =
+          this.value;
+
+
+        if (!userId) {
+          return;
+        }
+
+
+        const user =
+          users.find(
+            function(item) {
+
+              return (
+                item.userId ===
+                userId
+              );
+
+            }
+          );
+
+
+        if (!user) {
+          return;
+        }
+
+
+        selectedAssignees.push(
+          user
+        );
+
+
+        renderSelectedAssignees();
+
+        renderAssigneeSelect();
+
+
+        this.value = '';
+
+      };
+
+  }
+
+
+  function renderSelectedAssignees() {
+
+    const container =
+      document.getElementById(
+        'assigneeList'
+      );
+
+
+    container.innerHTML = '';
+
+
+    if (
+      selectedAssignees.length === 0
+    ) {
+
+      const empty =
+        document.createElement(
+          'div'
+        );
+
+      empty.className =
+        'assignee-empty';
+
+      empty.textContent =
+        'ยังไม่ได้เลือกผู้รับผิดชอบ';
+
+      container.appendChild(
+        empty
+      );
 
       return;
 
     }
 
 
-    setStatus(
-      'กำลังโหลดข้อมูลผู้ใช้...',
-      'normal'
-    );
+    selectedAssignees.forEach(
+      function(user, index) {
 
-
-    const profile =
-      await liff.getProfile();
-
-
-    console.log(
-      'LINE profile:',
-      profile
-    );
-
-
-    currentUser = {
-
-      userId:
-        profile.userId,
-
-      displayName:
-        profile.displayName
-
-    };
-
-
-    document.getElementById(
-      'userName'
-    ).textContent =
-      profile.displayName;
-
-
-    /*
-     * โหลดข้อมูลระบบ
-     */
-
-    await loadInitialData();
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-    showError(
-      'เชื่อมต่อ LINE ไม่สำเร็จ: ' +
-      error.message
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   INITIAL DATA
-===================================================== */
-
-function loadInitialData() {
-
-  return new Promise(
-    function(resolve, reject) {
-
-      const callbackName =
-        'ppmInitial_' +
-        Date.now();
-
-      window[callbackName] =
-        function(data) {
-
-          delete window[callbackName];
-
-          if (
-            data &&
-            data.success
-          ) {
-
-            currentUser =
-              data.user;
-
-            users =
-              data.users || [];
-
-            categories =
-              data.categories || [];
-
-
-            document.getElementById(
-              'userName'
-            ).textContent =
-              currentUser.systemName ||
-              currentUser.displayName;
-
-
-            document.getElementById(
-              'userRole'
-            ).textContent =
-              currentUser.role || 'Staff';
-
-
-            renderForm();
-
-
-            resolve(data);
-
-          } else {
-
-            reject(
-              new Error(
-                data.error ||
-                'โหลดข้อมูลไม่สำเร็จ'
-              )
-            );
-
-          }
-
-        };
-
-
-      const script =
-        document.createElement(
-          'script'
-        );
-
-
-      const params =
-        new URLSearchParams({
-
-          action:
-            'initialData',
-
-          userId:
-            currentUser.userId,
-
-          displayName:
-            currentUser.displayName,
-
-          callback:
-            callbackName
-
-        });
-
-
-      script.src =
-        API_URL +
-        '?' +
-        params.toString();
-
-
-      script.onerror =
-        function() {
-
-          delete window[callbackName];
-
-          reject(
-            new Error(
-              'ไม่สามารถเชื่อมต่อ Apps Script'
-            )
+        const chip =
+          document.createElement(
+            'div'
           );
 
-        };
+        chip.className =
+          'assignee-chip';
 
 
-      document.body.appendChild(
-        script
+        const name =
+          document.createElement(
+            'span'
+          );
+
+        name.textContent =
+          user.name;
+
+
+        const remove =
+          document.createElement(
+            'button'
+          );
+
+        remove.type =
+          'button';
+
+        remove.textContent =
+          '×';
+
+        remove.title =
+          'ลบผู้รับผิดชอบ';
+
+
+        remove.onclick =
+          function() {
+
+            selectedAssignees.splice(
+              index,
+              1
+            );
+
+            renderSelectedAssignees();
+
+            renderAssigneeSelect();
+
+          };
+
+
+        chip.appendChild(name);
+
+        chip.appendChild(remove);
+
+        container.appendChild(chip);
+
+      }
+    );
+
+  }
+
+
+  /* =================================================
+   * SAVE JOB
+   * ================================================= */
+
+  async function saveJob() {
+
+    hideMessages();
+
+
+    if (
+      !currentUser ||
+      !currentUser.userId
+    ) {
+
+      showError(
+        'ไม่พบข้อมูล LINE User'
       );
+
+      return;
 
     }
-  );
-
-}
 
 
-/* =====================================================
-   RENDER FORM
-===================================================== */
-
-function renderForm() {
-
-
-  const category =
-    document.getElementById(
-      'category'
-    );
+    const category =
+      document
+        .getElementById('category')
+        .value;
 
 
-  category.innerHTML =
-    '<option value="">เลือกหมวดหมู่</option>';
+    const customer =
+      document
+        .getElementById('customer')
+        .value
+        .trim();
 
 
-  categories.forEach(
-    function(item) {
+    const location =
+      document
+        .getElementById('location')
+        .value
+        .trim();
 
-      const option =
-        document.createElement(
-          'option'
-        );
 
-      option.value =
-        item;
+    const detail =
+      document
+        .getElementById('detail')
+        .value
+        .trim();
 
-      option.textContent =
-        item;
 
-      category.appendChild(
-        option
+    const reviewerId =
+      document
+        .getElementById('reviewer')
+        .value;
+
+
+    const dueDate =
+      document
+        .getElementById('dueDate')
+        .value;
+
+
+    if (!category) {
+
+      showError(
+        'กรุณาเลือกหมวดหมู่งาน'
       );
+
+      return;
 
     }
-  );
 
 
-  const assignee =
-    document.getElementById(
-      'assignee'
-    );
+    if (!customer) {
 
-
-  const reviewer =
-    document.getElementById(
-      'reviewer'
-    );
-
-
-  assignee.innerHTML =
-    '<option value="">เลือกผู้รับผิดชอบ</option>';
-
-
-  reviewer.innerHTML =
-    '<option value="">ไม่ระบุ</option>';
-
-
-  users.forEach(
-    function(user) {
-
-      const name =
-        user.systemName ||
-        user.displayName ||
-        'ไม่ระบุชื่อ';
-
-
-      const option1 =
-        document.createElement(
-          'option'
-        );
-
-      option1.value =
-        user.userId;
-
-      option1.textContent =
-        name +
-        (
-          user.role
-            ? ' — ' + user.role
-            : ''
-        );
-
-
-      assignee.appendChild(
-        option1
+      showError(
+        'กรุณาระบุชื่อลูกค้า'
       );
 
-
-      const option2 =
-        document.createElement(
-          'option'
-        );
-
-      option2.value =
-        user.userId;
-
-      option2.textContent =
-        name +
-        (
-          user.role
-            ? ' — ' + user.role
-            : ''
-        );
-
-
-      reviewer.appendChild(
-        option2
-      );
+      return;
 
     }
-  );
 
 
-  saveButton.disabled =
-    false;
+    if (!detail) {
+
+      showError(
+        'กรุณาระบุรายละเอียดงาน'
+      );
+
+      return;
+
+    }
 
 
-  setStatus(
-    'พร้อมสร้างงานใหม่',
-    'success'
-  );
+    if (
+      selectedAssignees.length === 0
+    ) {
 
-}
+      showError(
+        'กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน'
+      );
 
+      return;
 
-/* =====================================================
-   SAVE
-===================================================== */
-
-jobForm.addEventListener(
-  'submit',
-  function(event) {
-
-    event.preventDefault();
-
-    saveJob();
-
-  }
-);
+    }
 
 
-function saveJob() {
+    if (!dueDate) {
 
-  const params = {
+      showError(
+        'กรุณาระบุกำหนดส่ง'
+      );
 
-    action:
-      'saveJob',
+      return;
 
-    reporterId:
-      currentUser.userId,
+    }
 
-    category:
+
+    const button =
       document.getElementById(
-        'category'
-      ).value,
-
-    customer:
-      document.getElementById(
-        'customer'
-      ).value.trim(),
-
-    location:
-      document.getElementById(
-        'location'
-      ).value.trim(),
-
-    detail:
-      document.getElementById(
-        'detail'
-      ).value.trim(),
-
-    assigneeId:
-      document.getElementById(
-        'assignee'
-      ).value,
-
-    reviewerId:
-      document.getElementById(
-        'reviewer'
-      ).value,
-
-    dueDate:
-      document.getElementById(
-        'dueDate'
-      ).value
-
-  };
+        'saveButton'
+      );
 
 
-  if (!params.category) {
+    button.disabled = true;
 
-    alert(
-      'กรุณาเลือกหมวดหมู่งาน'
-    );
-
-    return;
-
-  }
+    button.textContent =
+      'กำลังบันทึก...';
 
 
-  if (!params.customer) {
+    try {
 
-    alert(
-      'กรุณากรอกชื่อลูกค้า'
-    );
+      const assigneeIds =
+        selectedAssignees
+          .map(
+            function(user) {
 
-    return;
+              return user.userId;
 
-  }
-
-
-  if (!params.detail) {
-
-    alert(
-      'กรุณากรอกรายละเอียดงาน'
-    );
-
-    return;
-
-  }
+            }
+          )
+          .join(',');
 
 
-  if (!params.assigneeId) {
+      const result =
+        await apiGet(
+          'saveJob',
+          {
 
-    alert(
-      'กรุณาเลือกผู้รับผิดชอบ'
-    );
+            reporterId:
+              currentUser.userId,
 
-    return;
+            category:
+              category,
 
-  }
+            customer:
+              customer,
 
+            location:
+              location,
 
-  if (!params.dueDate) {
+            detail:
+              detail,
 
-    alert(
-      'กรุณาเลือกกำหนดส่ง'
-    );
+            assigneeIds:
+              assigneeIds,
 
-    return;
+            reviewerId:
+              reviewerId,
 
-  }
+            dueDate:
+              dueDate
 
-
-  saveButton.disabled =
-    true;
-
-  saveButton.textContent =
-    'กำลังบันทึก...';
-
-
-  setStatus(
-    'กำลังบันทึกงาน...',
-    'normal'
-  );
-
-
-  const callbackName =
-    'ppmSave_' +
-    Date.now();
-
-
-  window[callbackName] =
-    function(data) {
-
-      delete window[callbackName];
-
-
-      if (
-        data &&
-        data.success
-      ) {
-
-        document.getElementById(
-          'jobId'
-        ).textContent =
-          data.jobId;
-
-
-        document.getElementById(
-          'result'
-        ).style.display =
-          'block';
-
-
-        setStatus(
-          'สร้างงานเรียบร้อยแล้ว',
-          'success'
+          }
         );
 
 
-        jobForm.reset();
+      if (!result.success) {
 
-
-        saveButton.disabled =
-          false;
-
-        saveButton.textContent =
-          'บันทึกงาน';
-
-
-        window.scrollTo({
-
-          top:
-            document.body.scrollHeight,
-
-          behavior:
-            'smooth'
-
-        });
-
-      } else {
-
-        showError(
-          data.error ||
-          'บันทึกงานไม่สำเร็จ'
+        throw new Error(
+          result.error ||
+          'ไม่สามารถบันทึกงานได้'
         );
-
-
-        saveButton.disabled =
-          false;
-
-        saveButton.textContent =
-          'บันทึกงาน';
 
       }
 
-    };
+
+      document
+        .getElementById(
+          'successMessage'
+        )
+        .textContent =
+          'รหัสงาน: ' +
+          result.jobId +
+          ' | ผู้รับผิดชอบ: ' +
+          result.assignees;
 
 
-  const script =
-    document.createElement(
-      'script'
-    );
+      document
+        .getElementById(
+          'successBox'
+        )
+        .style.display =
+          'block';
 
 
-  params.callback =
-    callbackName;
+      /*
+       * ล้างฟอร์ม
+       */
+
+      document
+        .getElementById(
+          'category'
+        )
+        .value = '';
 
 
-  const query =
-    new URLSearchParams(
-      params
-    );
+      document
+        .getElementById(
+          'customer'
+        )
+        .value = '';
 
 
-  script.src =
-    API_URL +
-    '?' +
-    query.toString();
+      document
+        .getElementById(
+          'location'
+        )
+        .value = '';
 
 
-  script.onerror =
-    function() {
+      document
+        .getElementById(
+          'detail'
+        )
+        .value = '';
 
-      delete window[callbackName];
+
+      document
+        .getElementById(
+          'reviewer'
+        )
+        .value = '';
+
+
+      document
+        .getElementById(
+          'dueDate'
+        )
+        .value = '';
+
+
+      selectedAssignees = [];
+
+
+      renderSelectedAssignees();
+
+      renderAssigneeSelect();
+
+
+    } catch (error) {
+
+      console.error(error);
 
       showError(
-        'ไม่สามารถเชื่อมต่อระบบบันทึกงานได้'
+        error.message ||
+        'เกิดข้อผิดพลาด'
       );
 
-
-      saveButton.disabled =
-        false;
-
-      saveButton.textContent =
-        'บันทึกงาน';
-
-    };
+    }
 
 
-  document.body.appendChild(
-    script
-  );
+    button.disabled = false;
 
-}
-
-
-/* =====================================================
-   UI
-===================================================== */
-
-function setStatus(
-  message,
-  type
-) {
-
-  statusBox.textContent =
-    message;
-
-  statusBox.className =
-    'status';
-
-
-  if (
-    type === 'success'
-  ) {
-
-    statusBox.classList.add(
-      'success'
-    );
+    button.textContent =
+      'เพิ่มงาน';
 
   }
 
 
-  if (
-    type === 'error'
-  ) {
+  /* =================================================
+   * UI
+   * ================================================= */
 
-    statusBox.classList.add(
-      'error'
-    );
+  function setStatus(text) {
+
+    document
+      .getElementById(
+        'status'
+      )
+      .textContent =
+        text || '';
 
   }
 
-}
+
+  function hideMessages() {
+
+    document
+      .getElementById(
+        'successBox'
+      )
+      .style.display =
+        'none';
 
 
-function showError(
-  message
-) {
+    document
+      .getElementById(
+        'errorBox'
+      )
+      .style.display =
+        'none';
 
-  console.error(
-    message
-  );
+  }
 
-  setStatus(
-    message,
-    'error'
-  );
 
-}
+  function showError(message) {
+
+    const box =
+      document.getElementById(
+        'errorBox'
+      );
+
+    box.textContent =
+      message;
+
+    box.style.display =
+      'block';
+
+  }
 
 </script>
 
 </body>
 </html>
+```
