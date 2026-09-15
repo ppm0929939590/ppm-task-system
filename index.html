@@ -216,12 +216,39 @@
       color: #777;
     }
 
+    .loading-spinner {
+      width: 30px;
+      height: 30px;
+      border: 3px solid #ddd;
+      border-top-color: #111;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
     .debug {
       margin-top: 10px;
       font-size: 11px;
       color: #aaa;
       text-align: center;
       word-break: break-all;
+    }
+
+    .retry-button {
+      margin-top: 16px;
+      border: none;
+      background: #111;
+      color: white;
+      border-radius: 10px;
+      padding: 10px 18px;
+      font-size: 14px;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -236,31 +263,59 @@
   </div>
 
   <div id="loading" class="loading">
-    กำลังเชื่อมต่อ LINE...
+
+    <div class="loading-spinner"></div>
+
+    <div id="loadingMessage">
+      กำลังเชื่อมต่อ LINE...
+    </div>
+
     <div id="debugText" class="debug"></div>
+
   </div>
+
 
   <div id="mainContent" style="display:none;">
 
     <div class="user-box">
-      <div class="user-label">ผู้บันทึกงาน</div>
-      <div id="currentUserName" class="user-name">-</div>
+
+      <div class="user-label">
+        ผู้บันทึกงาน
+      </div>
+
+      <div id="currentUserName" class="user-name">
+        -
+      </div>
+
     </div>
+
 
     <div class="card">
 
+      <!-- CATEGORY -->
+
       <div class="field">
+
         <label>
           หมวดหมู่งาน
           <span class="required">*</span>
         </label>
 
         <select id="category">
-          <option value="">เลือกหมวดหมู่</option>
+
+          <option value="">
+            เลือกหมวดหมู่
+          </option>
+
         </select>
+
       </div>
 
+
+      <!-- CUSTOMER -->
+
       <div class="field">
+
         <label>
           ลูกค้า
           <span class="required">*</span>
@@ -271,19 +326,31 @@
           type="text"
           placeholder="ระบุชื่อลูกค้า"
         >
+
       </div>
 
+
+      <!-- LOCATION -->
+
       <div class="field">
-        <label>สถานที่</label>
+
+        <label>
+          สถานที่
+        </label>
 
         <input
           id="location"
           type="text"
           placeholder="ระบุสถานที่"
         >
+
       </div>
 
+
+      <!-- DETAIL -->
+
       <div class="field">
+
         <label>
           รายละเอียดงาน
           <span class="required">*</span>
@@ -293,7 +360,11 @@
           id="detail"
           placeholder="รายละเอียดงานที่ต้องทำ"
         ></textarea>
+
       </div>
+
+
+      <!-- ASSIGNEES -->
 
       <div class="field">
 
@@ -304,16 +375,28 @@
 
         <div class="assignee-box">
 
-          <div id="assigneeList" class="assignee-list">
+          <div
+            id="assigneeList"
+            class="assignee-list"
+          >
+
             <div class="assignee-empty">
               ยังไม่ได้เลือกผู้รับผิดชอบ
             </div>
+
           </div>
 
+
           <div class="assignee-select">
+
             <select id="assigneeSelect">
-              <option value="">+ เพิ่มผู้รับผิดชอบ</option>
+
+              <option value="">
+                + เพิ่มผู้รับผิดชอบ
+              </option>
+
             </select>
+
           </div>
 
         </div>
@@ -324,15 +407,27 @@
 
       </div>
 
+
+      <!-- REVIEWER -->
+
       <div class="field">
 
-        <label>ผู้ตรวจ</label>
+        <label>
+          ผู้ตรวจ
+        </label>
 
         <select id="reviewer">
-          <option value="">เลือกผู้ตรวจ</option>
+
+          <option value="">
+            เลือกผู้ตรวจ
+          </option>
+
         </select>
 
       </div>
+
+
+      <!-- DUE DATE -->
 
       <div class="field">
 
@@ -341,26 +436,54 @@
           <span class="required">*</span>
         </label>
 
-        <input id="dueDate" type="date">
+        <input
+          id="dueDate"
+          type="date"
+        >
 
       </div>
+
+
+      <!-- SAVE -->
 
       <button
         id="saveButton"
         class="button"
+        type="button"
         onclick="saveJob()"
       >
         เพิ่มงาน
       </button>
 
-      <div id="status" class="status"></div>
 
-      <div id="successBox" class="success">
-        <strong>เพิ่มงานเรียบร้อยแล้ว 🎉</strong>
+      <div
+        id="status"
+        class="status"
+      ></div>
+
+
+      <!-- SUCCESS -->
+
+      <div
+        id="successBox"
+        class="success"
+      >
+
+        <strong>
+          เพิ่มงานเรียบร้อยแล้ว 🎉
+        </strong>
+
         <div id="successMessage"></div>
+
       </div>
 
-      <div id="errorBox" class="error"></div>
+
+      <!-- ERROR -->
+
+      <div
+        id="errorBox"
+        class="error"
+      ></div>
 
     </div>
 
@@ -368,1246 +491,1690 @@
 
 </div>
 
+
 <script>
 
-  /* =================================================
-   * CONFIG
-   * ================================================= */
+/* =====================================================
+   CONFIG
+===================================================== */
 
-  var LIFF_ID =
-    '2011608457-HhlDakb3';
-
-  var API_URL =
-    'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
-
-  var currentUser = null;
-  var users = [];
-  var selectedAssignees = [];
+var LIFF_ID =
+  '2011608457-HhlDakb3';
 
 
-  /* =================================================
-   * START
-   * ================================================= */
+var API_URL =
+  'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
 
-  window.addEventListener(
-    'load',
-    startSystem
+
+/* =====================================================
+   GLOBAL VARIABLES
+===================================================== */
+
+var currentUser = null;
+
+var users = [];
+
+var selectedAssignees = [];
+
+var systemStarted = false;
+
+
+/* =====================================================
+   START SYSTEM
+===================================================== */
+
+window.addEventListener(
+  'load',
+  function() {
+
+    /*
+     * รอให้หน้าเว็บพร้อมก่อนเริ่มระบบ
+     * ป้องกันปัญหา LIFF SDK ยังไม่พร้อม
+     */
+
+    setTimeout(
+      function() {
+
+        startSystem();
+
+      },
+      300
+    );
+
+  }
+);
+
+
+/* =====================================================
+   START SYSTEM
+===================================================== */
+
+async function startSystem() {
+
+  if (systemStarted) {
+    return;
+  }
+
+  systemStarted = true;
+
+
+  try {
+
+    setLoading(
+      'กำลังตรวจสอบ LINE...',
+      'เริ่มต้นระบบ'
+    );
+
+
+    /* -----------------------------------------------
+       STEP 1
+       CHECK LIFF SDK
+    ----------------------------------------------- */
+
+    if (
+      typeof liff === 'undefined'
+    ) {
+
+      throw new Error(
+        'ไม่พบ LINE LIFF SDK'
+      );
+
+    }
+
+
+    setLoading(
+      'กำลังเริ่มระบบ LINE...',
+      'พบ LIFF SDK แล้ว'
+    );
+
+
+    /* -----------------------------------------------
+       STEP 2
+       LIFF INIT
+    ----------------------------------------------- */
+
+    await withTimeout(
+      liff.init({
+        liffId: LIFF_ID,
+        withLoginOnExternalBrowser: true
+      }),
+      15000,
+      'LIFF ใช้เวลาเชื่อมต่อนานเกินไป'
+    );
+
+
+    console.log(
+      '✅ LIFF INIT SUCCESS'
+    );
+
+
+    console.log(
+      'isLoggedIn:',
+      liff.isLoggedIn()
+    );
+
+
+    console.log(
+      'isInClient:',
+      liff.isInClient()
+    );
+
+
+    setLoading(
+      'ตรวจสอบการเข้าสู่ระบบ...',
+      'LIFF พร้อมใช้งาน'
+    );
+
+
+    /* -----------------------------------------------
+       STEP 3
+       LOGIN
+    ----------------------------------------------- */
+
+    if (
+      !liff.isLoggedIn()
+    ) {
+
+      setLoading(
+        'กำลังเข้าสู่ระบบ LINE...',
+        'ยังไม่ได้ Login'
+      );
+
+
+      liff.login();
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------------
+       STEP 4
+       GET PROFILE
+    ----------------------------------------------- */
+
+    setLoading(
+      'กำลังอ่านข้อมูล LINE...',
+      'เข้าสู่ระบบแล้ว'
+    );
+
+
+    var profile =
+      await withTimeout(
+        liff.getProfile(),
+        15000,
+        'ไม่สามารถอ่านข้อมูล LINE ได้'
+      );
+
+
+    console.log(
+      '✅ PROFILE SUCCESS',
+      profile
+    );
+
+
+    if (
+      !profile ||
+      !profile.userId
+    ) {
+
+      throw new Error(
+        'ไม่พบ LINE User ID'
+      );
+
+    }
+
+
+    currentUser = {
+
+      userId:
+        profile.userId,
+
+      displayName:
+        profile.displayName || ''
+
+    };
+
+
+    console.log(
+      '👤 CURRENT USER:',
+      currentUser
+    );
+
+
+    setLoading(
+      'กำลังโหลดข้อมูลระบบ...',
+      'LINE: ' +
+      currentUser.displayName
+    );
+
+
+    /* -----------------------------------------------
+       STEP 5
+       LOAD API DATA
+    ----------------------------------------------- */
+
+    var data =
+      await apiGet(
+        'initialData',
+        {
+
+          userId:
+            currentUser.userId,
+
+          displayName:
+            currentUser.displayName
+
+        }
+      );
+
+
+    console.log(
+      '✅ INITIAL DATA SUCCESS',
+      data
+    );
+
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
+
+      throw new Error(
+        data &&
+        data.error
+          ? data.error
+          : 'ระบบไม่สามารถส่งข้อมูลกลับมาได้'
+      );
+
+    }
+
+
+    /* -----------------------------------------------
+       STEP 6
+       STORE DATA
+    ----------------------------------------------- */
+
+    currentUser =
+      data.user ||
+      currentUser;
+
+
+    users =
+      Array.isArray(
+        data.users
+      )
+        ? data.users
+        : [];
+
+
+    console.log(
+      '👤 USER:',
+      currentUser
+    );
+
+
+    console.log(
+      '👥 USERS:',
+      users
+    );
+
+
+    console.log(
+      '📂 CATEGORIES:',
+      data.categories
+    );
+
+
+    /* -----------------------------------------------
+       STEP 7
+       RENDER
+    ----------------------------------------------- */
+
+    renderCurrentUser();
+
+
+    renderCategories(
+      Array.isArray(
+        data.categories
+      )
+        ? data.categories
+        : []
+    );
+
+
+    renderUsers();
+
+
+    renderSelectedAssignees();
+
+
+    renderAssigneeSelect();
+
+
+    /* -----------------------------------------------
+       STEP 8
+       SHOW MAIN PAGE
+    ----------------------------------------------- */
+
+    document
+      .getElementById(
+        'loading'
+      )
+      .style.display =
+        'none';
+
+
+    document
+      .getElementById(
+        'mainContent'
+      )
+      .style.display =
+        'block';
+
+
+    setStatus('');
+
+
+    console.log(
+      '🎉 PPM WORK PLAN READY'
+    );
+
+  }
+
+  catch (error) {
+
+    console.error(
+      '❌ PPM START ERROR:',
+      error
+    );
+
+
+    systemStarted = false;
+
+
+    showFatalError(
+      error &&
+      error.message
+        ? error.message
+        : String(error)
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   TIMEOUT HELPER
+===================================================== */
+
+function withTimeout(
+  promise,
+  milliseconds,
+  errorMessage
+) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      var finished =
+        false;
+
+
+      var timer =
+        setTimeout(
+          function() {
+
+            if (finished) {
+              return;
+            }
+
+
+            finished = true;
+
+
+            reject(
+              new Error(
+                errorMessage
+              )
+            );
+
+          },
+          milliseconds
+        );
+
+
+      Promise.resolve(
+        promise
+      )
+        .then(
+          function(value) {
+
+            if (finished) {
+              return;
+            }
+
+
+            finished = true;
+
+
+            clearTimeout(
+              timer
+            );
+
+
+            resolve(
+              value
+            );
+
+          }
+        )
+        .catch(
+          function(error) {
+
+            if (finished) {
+              return;
+            }
+
+
+            finished = true;
+
+
+            clearTimeout(
+              timer
+            );
+
+
+            reject(
+              error
+            );
+
+          }
+        );
+
+    }
   );
 
-
-  async function startSystem() {
-
-    try {
-
-      setStatus(
-        'กำลังตรวจสอบ LINE...'
-      );
-
-      debugText(
-        'เริ่มต้นระบบ'
-      );
+}
 
 
-      if (
-        typeof liff === 'undefined'
+/* =====================================================
+   JSONP API
+===================================================== */
+
+function apiGet(
+  action,
+  params
+) {
+
+  return new Promise(
+    function(resolve, reject) {
+
+      var callbackName =
+        'ppmJsonp_' +
+        Date.now() +
+        '_' +
+        Math.floor(
+          Math.random() * 1000000
+        );
+
+
+      var script =
+        document.createElement(
+          'script'
+        );
+
+
+      var finished =
+        false;
+
+
+      var timeoutId =
+        null;
+
+
+      function cleanup() {
+
+        if (timeoutId) {
+
+          clearTimeout(
+            timeoutId
+          );
+
+        }
+
+
+        try {
+
+          delete window[
+            callbackName
+          ];
+
+        }
+
+        catch (e) {
+
+          window[
+            callbackName
+          ] = undefined;
+
+        }
+
+
+        if (
+          script &&
+          script.parentNode
+        ) {
+
+          script.parentNode.removeChild(
+            script
+          );
+
+        }
+
+      }
+
+
+      function finishSuccess(
+        data
       ) {
 
-        throw new Error(
-          'ไม่พบ LINE LIFF SDK'
+        if (finished) {
+          return;
+        }
+
+
+        finished = true;
+
+
+        cleanup();
+
+
+        resolve(
+          data
         );
 
       }
 
 
-      debugText(
-        'กำลังเริ่ม LIFF...'
+      function finishError(
+        error
+      ) {
+
+        if (finished) {
+          return;
+        }
+
+
+        finished = true;
+
+
+        cleanup();
+
+
+        reject(
+          error
+        );
+
+      }
+
+
+      /* -------------------------------------------
+         CALLBACK
+      ------------------------------------------- */
+
+      window[
+        callbackName
+      ] = function(data) {
+
+        console.log(
+          'PPM JSONP RESPONSE:',
+          data
+        );
+
+
+        finishSuccess(
+          data
+        );
+
+      };
+
+
+      /* -------------------------------------------
+         SCRIPT ERROR
+      ------------------------------------------- */
+
+      script.onerror =
+        function() {
+
+          finishError(
+            new Error(
+              'ไม่สามารถเชื่อมต่อ Google Apps Script ได้'
+            )
+          );
+
+        };
+
+
+      /* -------------------------------------------
+         BUILD QUERY
+      ------------------------------------------- */
+
+      var query = [];
+
+
+      query.push(
+        'action=' +
+        encodeURIComponent(
+          action
+        )
       );
 
 
-      await liff.init({
-        liffId: LIFF_ID,
-        withLoginOnExternalBrowser: true
-      });
-
-
-      debugText(
-        'LIFF พร้อมใช้งาน'
+      query.push(
+        'callback=' +
+        encodeURIComponent(
+          callbackName
+        )
       );
+
+
+      query.push(
+        '_=' +
+        Date.now()
+      );
+
+
+      if (params) {
+
+        Object.keys(
+          params
+        ).forEach(
+          function(key) {
+
+            if (
+              params[key] !==
+              undefined &&
+              params[key] !==
+              null
+            ) {
+
+              query.push(
+                encodeURIComponent(
+                  key
+                ) +
+                '=' +
+                encodeURIComponent(
+                  params[key]
+                )
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+
+      var url =
+        API_URL +
+        '?' +
+        query.join('&');
+
+
+      console.log(
+        'PPM JSONP URL:',
+        url
+      );
+
+
+      /* -------------------------------------------
+         ADD SCRIPT
+      ------------------------------------------- */
+
+      script.src =
+        url;
+
+
+      document
+        .head
+        .appendChild(
+          script
+        );
+
+
+      /* -------------------------------------------
+         TIMEOUT
+      ------------------------------------------- */
+
+      timeoutId =
+        setTimeout(
+          function() {
+
+            finishError(
+              new Error(
+                'การเชื่อมต่อ Google Apps Script ใช้เวลานานเกินไป กรุณาลองใหม่'
+              )
+            );
+
+          },
+          30000
+        );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SAVE JOB
+===================================================== */
+
+async function saveJob() {
+
+  var button =
+    document.getElementById(
+      'saveButton'
+    );
+
+
+  var category =
+    document.getElementById(
+      'category'
+    ).value;
+
+
+  var customer =
+    document.getElementById(
+      'customer'
+    ).value.trim();
+
+
+  var location =
+    document.getElementById(
+      'location'
+    ).value.trim();
+
+
+  var detail =
+    document.getElementById(
+      'detail'
+    ).value.trim();
+
+
+  var reviewer =
+    document.getElementById(
+      'reviewer'
+    ).value;
+
+
+  var dueDate =
+    document.getElementById(
+      'dueDate'
+    ).value;
+
+
+  hideMessages();
+
+
+  /* -----------------------------------------------
+     VALIDATION
+  ----------------------------------------------- */
+
+  if (!category) {
+
+    showError(
+      'กรุณาเลือกหมวดหมู่งาน'
+    );
+
+    return;
+
+  }
+
+
+  if (!customer) {
+
+    showError(
+      'กรุณาระบุชื่อลูกค้า'
+    );
+
+    return;
+
+  }
+
+
+  if (!detail) {
+
+    showError(
+      'กรุณาระบุรายละเอียดงาน'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    selectedAssignees.length === 0
+  ) {
+
+    showError(
+      'กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน'
+    );
+
+    return;
+
+  }
+
+
+  if (!dueDate) {
+
+    showError(
+      'กรุณาระบุกำหนดส่ง'
+    );
+
+    return;
+
+  }
+
+
+  if (
+    !currentUser ||
+    !currentUser.userId
+  ) {
+
+    showError(
+      'ไม่พบข้อมูลผู้บันทึกงาน กรุณารีโหลดหน้า'
+    );
+
+    return;
+
+  }
+
+
+  /* -----------------------------------------------
+     BUTTON
+  ----------------------------------------------- */
+
+  button.disabled =
+    true;
+
+
+  button.innerText =
+    'กำลังเพิ่มงาน...';
+
+
+  setStatus(
+    'กำลังบันทึกงาน...'
+  );
+
+
+  try {
+
+    var assigneeIds =
+      selectedAssignees
+        .map(
+          function(user) {
+
+            return user.userId;
+
+          }
+        )
+        .join(',');
+
+
+    console.log(
+      'ASSIGNEE IDS:',
+      assigneeIds
+    );
+
+
+    /* -------------------------------------------
+       SAVE API
+    ------------------------------------------- */
+
+    var data =
+      await apiGet(
+        'saveJob',
+        {
+
+          category:
+            category,
+
+          customer:
+            customer,
+
+          location:
+            location,
+
+          detail:
+            detail,
+
+          assigneeIds:
+            assigneeIds,
+
+          reviewerId:
+            reviewer,
+
+          dueDate:
+            dueDate,
+
+          reporterId:
+            currentUser.userId
+
+        }
+      );
+
+
+    console.log(
+      'SAVE JOB RESPONSE:',
+      data
+    );
+
+
+    if (
+      !data ||
+      data.success !== true
+    ) {
+
+      throw new Error(
+        data &&
+        data.error
+          ? data.error
+          : 'ไม่สามารถบันทึกงานได้'
+      );
+
+    }
+
+
+    /* -------------------------------------------
+       SUCCESS
+    ------------------------------------------- */
+
+    var jobId =
+      data.jobId ||
+      data.id ||
+      '-';
+
+
+    document
+      .getElementById(
+        'successMessage'
+      )
+      .innerHTML =
+        'รหัสงาน: <strong>' +
+        escapeHtml(
+          jobId
+        ) +
+        '</strong>';
+
+
+    document
+      .getElementById(
+        'successBox'
+      )
+      .style.display =
+        'block';
+
+
+    setStatus('');
+
+
+    /* -------------------------------------------
+       RESET FORM
+    ------------------------------------------- */
+
+    document
+      .getElementById(
+        'category'
+      )
+      .value =
+        '';
+
+
+    document
+      .getElementById(
+        'customer'
+      )
+      .value =
+        '';
+
+
+    document
+      .getElementById(
+        'location'
+      )
+      .value =
+        '';
+
+
+    document
+      .getElementById(
+        'detail'
+      )
+      .value =
+        '';
+
+
+    document
+      .getElementById(
+        'reviewer'
+      )
+      .value =
+        '';
+
+
+    document
+      .getElementById(
+        'dueDate'
+      )
+      .value =
+        '';
+
+
+    selectedAssignees =
+      [];
+
+
+    renderSelectedAssignees();
+
+
+    renderAssigneeSelect();
+
+
+  }
+
+  catch (error) {
+
+    console.error(
+      '❌ SAVE ERROR:',
+      error
+    );
+
+
+    showError(
+      error &&
+      error.message
+        ? error.message
+        : String(error)
+    );
+
+  }
+
+  finally {
+
+    button.disabled =
+      false;
+
+
+    button.innerText =
+      'เพิ่มงาน';
+
+  }
+
+}
+
+
+/* =====================================================
+   RENDER CURRENT USER
+===================================================== */
+
+function renderCurrentUser() {
+
+  var el =
+    document.getElementById(
+      'currentUserName'
+    );
+
+
+  if (!el) {
+    return;
+  }
+
+
+  el.textContent =
+    currentUser &&
+    currentUser.displayName
+      ? currentUser.displayName
+      : '-';
+
+}
+
+
+/* =====================================================
+   RENDER CATEGORIES
+===================================================== */
+
+function renderCategories(
+  categories
+) {
+
+  var select =
+    document.getElementById(
+      'category'
+    );
+
+
+  if (!select) {
+    return;
+  }
+
+
+  select.innerHTML =
+    '<option value="">เลือกหมวดหมู่</option>';
+
+
+  categories.forEach(
+    function(category) {
+
+      var option =
+        document.createElement(
+          'option'
+        );
+
+
+      option.value =
+        category;
+
+
+      option.textContent =
+        category;
+
+
+      select.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   RENDER USERS / REVIEWERS
+===================================================== */
+
+function renderUsers() {
+
+  var reviewer =
+    document.getElementById(
+      'reviewer'
+    );
+
+
+  if (!reviewer) {
+    return;
+  }
+
+
+  reviewer.innerHTML =
+    '<option value="">เลือกผู้ตรวจ</option>';
+
+
+  users.forEach(
+    function(user) {
+
+      if (
+        !user ||
+        !user.userId
+      ) {
+        return;
+      }
+
+
+      var option =
+        document.createElement(
+          'option'
+        );
+
+
+      option.value =
+        user.userId;
+
+
+      option.textContent =
+        user.name ||
+        user.displayName ||
+        '-';
+
+
+      reviewer.appendChild(
+        option
+      );
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   RENDER ASSIGNEE SELECT
+===================================================== */
+
+function renderAssigneeSelect() {
+
+  var select =
+    document.getElementById(
+      'assigneeSelect'
+    );
+
+
+  if (!select) {
+    return;
+  }
+
+
+  select.innerHTML =
+    '<option value="">+ เพิ่มผู้รับผิดชอบ</option>';
+
+
+  users.forEach(
+    function(user) {
+
+      if (
+        !user ||
+        !user.userId
+      ) {
+        return;
+      }
+
+
+      var alreadySelected =
+        selectedAssignees.some(
+          function(selected) {
+
+            return (
+              selected.userId ===
+              user.userId
+            );
+
+          }
+        );
 
 
       if (
-        !liff.isLoggedIn()
+        alreadySelected
       ) {
-
-        setStatus(
-          'กำลังเข้าสู่ระบบ LINE...'
-        );
-
-        debugText(
-          'ยังไม่ได้ Login → กำลังเปิด LINE Login'
-        );
-
-        liff.login();
 
         return;
 
       }
 
 
-      setStatus(
-        'กำลังอ่านข้อมูล LINE...'
-      );
-
-      debugText(
-        'กำลังโหลด Profile'
-      );
-
-
-      var profile =
-        await liff.getProfile();
-
-
-      if (
-        !profile ||
-        !profile.userId
-      ) {
-
-        throw new Error(
-          'ไม่สามารถอ่าน LINE User ID ได้'
-        );
-
-      }
-
-
-      currentUser = {
-
-        userId:
-          profile.userId,
-
-        displayName:
-          profile.displayName || ''
-
-      };
-
-
-      debugText(
-        'LINE: ' +
-        currentUser.displayName
-      );
-
-
-      setStatus(
-        'กำลังโหลดข้อมูลระบบ...'
-      );
-
-      debugText(
-        'กำลังเชื่อมต่อ Google Apps Script'
-      );
-
-
-      var data =
-        await apiGet(
-          'initialData',
-          {
-            userId:
-              currentUser.userId,
-
-            displayName:
-              currentUser.displayName
-          }
+      var option =
+        document.createElement(
+          'option'
         );
 
 
-      debugText(
-        'ได้รับข้อมูลจากระบบแล้ว'
-      );
+      option.value =
+        user.userId;
 
 
-      if (
-        !data ||
-        data.success !== true
-      ) {
-
-        throw new Error(
-          data && data.error
-            ? data.error
-            : 'ระบบไม่สามารถส่งข้อมูลกลับมาได้'
-        );
-
-      }
-
-
-      currentUser =
-        data.user || currentUser;
-
-      users =
-        Array.isArray(data.users)
-          ? data.users
-          : [];
-
-
-      renderCurrentUser();
-
-      renderCategories(
-        Array.isArray(data.categories)
-          ? data.categories
-          : []
-      );
-
-      renderUsers();
-
-      renderSelectedAssignees();
-
-      renderAssigneeSelect();
-
-
-      document
-        .getElementById('loading')
-        .style.display =
-          'none';
-
-
-      document
-        .getElementById('mainContent')
-        .style.display =
-          'block';
-
-
-      setStatus('');
-
-    }
-
-    catch (error) {
-
-      console.error(
-        'PPM ERROR:',
-        error
-      );
-
-
-      showFatalError(
-        error &&
-        error.message
-          ? error.message
-          : String(error)
-      );
-
-    }
-
-  }
-
-
-  /* =================================================
-   * JSONP API
-   * ================================================= */
-
-  function apiGet(
-    action,
-    params
-  ) {
-
-    return new Promise(
-      function(resolve, reject) {
-
-        var callbackName =
-          'ppmJsonp_' +
-          Date.now() +
-          '_' +
-          Math.floor(
-            Math.random() * 1000000
-          );
-
-        var script =
-          document.createElement(
-            'script'
-          );
-
-        var finished =
-          false;
-
-        var timeoutId =
-          null;
-
-
-        function cleanup() {
-
-          if (timeoutId) {
-
-            clearTimeout(
-              timeoutId
-            );
-
-          }
-
-
-          try {
-
-            delete window[
-              callbackName
-            ];
-
-          }
-
-          catch (e) {
-
-            window[
-              callbackName
-            ] = undefined;
-
-          }
-
-
-          if (
-            script &&
-            script.parentNode
-          ) {
-
-            script.parentNode.removeChild(
-              script
-            );
-
-          }
-
-        }
-
-
-        function finishSuccess(
-          data
-        ) {
-
-          if (finished) {
-            return;
-          }
-
-          finished = true;
-
-          cleanup();
-
-          resolve(data);
-
-        }
-
-
-        function finishError(
-          error
-        ) {
-
-          if (finished) {
-            return;
-          }
-
-          finished = true;
-
-          cleanup();
-
-          reject(error);
-
-        }
-
-
-        window[
-          callbackName
-        ] = function(data) {
-
-          console.log(
-            'PPM JSONP response:',
-            data
-          );
-
-          finishSuccess(data);
-
-        };
-
-
-        script.onerror =
-          function() {
-
-            finishError(
-              new Error(
-                'ไม่สามารถเชื่อมต่อ Google Apps Script ได้'
-              )
-            );
-
-          };
-
-
-        var query = [];
-
-        query.push(
-          'action=' +
-          encodeURIComponent(
-            action
-          )
-        );
-
-        query.push(
-          'callback=' +
-          encodeURIComponent(
-            callbackName
-          )
-        );
-
-        query.push(
-          '_=' +
-          Date.now()
-        );
-
-
-        if (params) {
-
-          Object.keys(
-            params
-          ).forEach(
-            function(key) {
-
-              if (
-                params[key] !==
-                undefined &&
-                params[key] !==
-                null
-              ) {
-
-                query.push(
-                  encodeURIComponent(key) +
-                  '=' +
-                  encodeURIComponent(
-                    params[key]
-                  )
-                );
-
-              }
-
-            }
-          );
-
-        }
-
-
-        var url =
-          API_URL +
-          '?' +
-          query.join('&');
-
-
-        console.log(
-          'PPM JSONP URL:',
-          url
-        );
-
-
-        script.src =
-          url;
-
-
-        document.head.appendChild(
-          script
-        );
-
-
-        timeoutId =
-          setTimeout(
-            function() {
-
-              finishError(
-                new Error(
-                  'การเชื่อมต่อใช้เวลานานเกินไป กรุณาลองใหม่'
-                )
-              );
-
-            },
-            30000
-          );
-
-      }
-    );
-
-  }
-
-
-  /* =================================================
-   * SAVE JOB
-   * ================================================= */
-
-  async function saveJob() {
-
-    var button =
-      document.getElementById(
-        'saveButton'
-      );
-
-    var category =
-      document.getElementById(
-        'category'
-      ).value;
-
-    var customer =
-      document.getElementById(
-        'customer'
-      ).value.trim();
-
-    var location =
-      document.getElementById(
-        'location'
-      ).value.trim();
-
-    var detail =
-      document.getElementById(
-        'detail'
-      ).value.trim();
-
-    var reviewer =
-      document.getElementById(
-        'reviewer'
-      ).value;
-
-    var dueDate =
-      document.getElementById(
-        'dueDate'
-      ).value;
-
-
-    hideMessages();
-
-
-    if (!category) {
-
-      showError(
-        'กรุณาเลือกหมวดหมู่งาน'
-      );
-
-      return;
-
-    }
-
-
-    if (!customer) {
-
-      showError(
-        'กรุณาระบุชื่อลูกค้า'
-      );
-
-      return;
-
-    }
-
-
-    if (!detail) {
-
-      showError(
-        'กรุณาระบุรายละเอียดงาน'
-      );
-
-      return;
-
-    }
-
-
-    if (
-      selectedAssignees.length === 0
-    ) {
-
-      showError(
-        'กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน'
-      );
-
-      return;
-
-    }
-
-
-    if (!dueDate) {
-
-      showError(
-        'กรุณาระบุกำหนดส่ง'
-      );
-
-      return;
-
-    }
-
-
-    if (
-      !currentUser ||
-      !currentUser.userId
-    ) {
-
-      showError(
-        'ไม่พบข้อมูลผู้บันทึกงาน กรุณารีโหลดหน้า'
-      );
-
-      return;
-
-    }
-
-
-    button.disabled = true;
-
-    button.innerText =
-      'กำลังเพิ่มงาน...';
-
-
-    setStatus(
-      'กำลังบันทึกงาน...'
-    );
-
-
-    try {
-
-      var assigneeIds =
-        selectedAssignees
-          .map(
-            function(user) {
-              return user.userId;
-            }
-          )
-          .join(',');
-
-
-      var data =
-        await apiGet(
-          'saveJob',
-          {
-
-            category:
-              category,
-
-            customer:
-              customer,
-
-            location:
-              location,
-
-            detail:
-              detail,
-
-            assigneeIds:
-              assigneeIds,
-
-            reviewerId:
-              reviewer,
-
-            dueDate:
-              dueDate,
-
-            reporterId:
-              currentUser.userId
-
-          }
-        );
-
-
-      console.log(
-        'SAVE JOB RESPONSE:',
-        data
-      );
-
-
-      if (
-        !data ||
-        data.success !== true
-      ) {
-
-        throw new Error(
-          data && data.error
-            ? data.error
-            : 'ไม่สามารถบันทึกงานได้'
-        );
-
-      }
-
-
-      var jobId =
-        data.jobId ||
-        data.id ||
+      option.textContent =
+        user.name ||
+        user.displayName ||
         '-';
 
 
-      document
-        .getElementById(
-          'successMessage'
-        )
-        .innerHTML =
-          'รหัสงาน: <strong>' +
-          escapeHtml(
-            jobId
-          ) +
-          '</strong>';
-
-
-      document
-        .getElementById(
-          'successBox'
-        )
-        .style.display =
-          'block';
-
-
-      setStatus(
-        ''
+      select.appendChild(
+        option
       );
 
+    }
+  );
 
-      document
-        .getElementById(
-          'category'
+
+  select.onchange =
+    function() {
+
+      var userId =
+        this.value;
+
+
+      if (!userId) {
+        return;
+      }
+
+
+      var user =
+        users.find(
+          function(item) {
+
+            return (
+              item.userId ===
+              userId
+            );
+
+          }
+        );
+
+
+      if (
+        user &&
+        !selectedAssignees.some(
+          function(selected) {
+
+            return (
+              selected.userId ===
+              user.userId
+            );
+
+          }
         )
-        .value =
-          '';
+      ) {
 
-      document
-        .getElementById(
-          'customer'
-        )
-        .value =
-          '';
+        selectedAssignees.push(
+          user
+        );
 
-      document
-        .getElementById(
-          'location'
-        )
-        .value =
-          '';
-
-      document
-        .getElementById(
-          'detail'
-        )
-        .value =
-          '';
-
-      document
-        .getElementById(
-          'reviewer'
-        )
-        .value =
-          '';
-
-      document
-        .getElementById(
-          'dueDate'
-        )
-        .value =
-          '';
+      }
 
 
-      selectedAssignees =
-        [];
+      this.value =
+        '';
+
 
       renderSelectedAssignees();
 
+
       renderAssigneeSelect();
 
+    };
 
-    }
-
-    catch (error) {
-
-      console.error(
-        'SAVE ERROR:',
-        error
-      );
+}
 
 
-      showError(
-        error &&
-        error.message
-          ? error.message
-          : String(error)
-      );
+/* =====================================================
+   RENDER SELECTED ASSIGNEES
+===================================================== */
 
-    }
+function renderSelectedAssignees() {
 
-    finally {
+  var container =
+    document.getElementById(
+      'assigneeList'
+    );
 
-      button.disabled =
-        false;
 
-      button.innerText =
-        'เพิ่มงาน';
-
-    }
-
+  if (!container) {
+    return;
   }
 
 
-  /* =================================================
-   * RENDER USER
-   * ================================================= */
-
-  function renderCurrentUser() {
-
-    var el =
-      document.getElementById(
-        'currentUserName'
-      );
-
-    if (!el) {
-      return;
-    }
-
-
-    el.textContent =
-      currentUser &&
-      currentUser.displayName
-        ? currentUser.displayName
-        : '-';
-
-  }
-
-
-  /* =================================================
-   * CATEGORY
-   * ================================================= */
-
-  function renderCategories(
-    categories
+  if (
+    selectedAssignees.length === 0
   ) {
-
-    var select =
-      document.getElementById(
-        'category'
-      );
-
-    if (!select) {
-      return;
-    }
-
-
-    select.innerHTML =
-      '<option value="">เลือกหมวดหมู่</option>';
-
-
-    categories.forEach(
-      function(category) {
-
-        var option =
-          document.createElement(
-            'option'
-          );
-
-        option.value =
-          category;
-
-        option.textContent =
-          category;
-
-        select.appendChild(
-          option
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =================================================
-   * USERS
-   * ================================================= */
-
-  function renderUsers() {
-
-    var reviewer =
-      document.getElementById(
-        'reviewer'
-      );
-
-
-    if (!reviewer) {
-      return;
-    }
-
-
-    reviewer.innerHTML =
-      '<option value="">เลือกผู้ตรวจ</option>';
-
-
-    users.forEach(
-      function(user) {
-
-        var option =
-          document.createElement(
-            'option'
-          );
-
-        option.value =
-          user.userId;
-
-        option.textContent =
-          user.name;
-
-        reviewer.appendChild(
-          option
-        );
-
-      }
-    );
-
-  }
-
-
-  /* =================================================
-   * ASSIGNEES
-   * ================================================= */
-
-  function renderAssigneeSelect() {
-
-    var select =
-      document.getElementById(
-        'assigneeSelect'
-      );
-
-    if (!select) {
-      return;
-    }
-
-
-    select.innerHTML =
-      '<option value="">+ เพิ่มผู้รับผิดชอบ</option>';
-
-
-    users.forEach(
-      function(user) {
-
-        var alreadySelected =
-          selectedAssignees.some(
-            function(selected) {
-
-              return (
-                selected.userId ===
-                user.userId
-              );
-
-            }
-          );
-
-
-        if (
-          alreadySelected
-        ) {
-
-          return;
-
-        }
-
-
-        var option =
-          document.createElement(
-            'option'
-          );
-
-        option.value =
-          user.userId;
-
-        option.textContent =
-          user.name;
-
-        select.appendChild(
-          option
-        );
-
-      }
-    );
-
-
-    select.onchange =
-      function() {
-
-        var userId =
-          this.value;
-
-
-        if (!userId) {
-          return;
-        }
-
-
-        var user =
-          users.find(
-            function(item) {
-
-              return (
-                item.userId ===
-                userId
-              );
-
-            }
-          );
-
-
-        if (
-          user &&
-          !selectedAssignees.some(
-            function(selected) {
-
-              return (
-                selected.userId ===
-                user.userId
-              );
-
-            }
-          )
-        ) {
-
-          selectedAssignees.push(
-            user
-          );
-
-        }
-
-
-        this.value =
-          '';
-
-
-        renderSelectedAssignees();
-
-        renderAssigneeSelect();
-
-      };
-
-  }
-
-
-  function renderSelectedAssignees() {
-
-    var container =
-      document.getElementById(
-        'assigneeList'
-      );
-
-    if (!container) {
-      return;
-    }
-
-
-    if (
-      selectedAssignees.length === 0
-    ) {
-
-      container.innerHTML =
-        '<div class="assignee-empty">' +
-        'ยังไม่ได้เลือกผู้รับผิดชอบ' +
-        '</div>';
-
-      return;
-
-    }
-
 
     container.innerHTML =
-      '';
-
-
-    selectedAssignees.forEach(
-      function(user, index) {
-
-        var chip =
-          document.createElement(
-            'div'
-          );
-
-        chip.className =
-          'assignee-chip';
-
-
-        chip.innerHTML =
-          '<span>' +
-          escapeHtml(
-            user.name
-          ) +
-          '</span>' +
-          '<button type="button" ' +
-          'onclick="removeAssignee(' +
-          index +
-          ')">' +
-          '×' +
-          '</button>';
-
-
-        container.appendChild(
-          chip
-        );
-
-      }
-    );
-
-  }
-
-
-  function removeAssignee(
-    index
-  ) {
-
-    selectedAssignees.splice(
-      index,
-      1
-    );
-
-    renderSelectedAssignees();
-
-    renderAssigneeSelect();
-
-  }
-
-
-  /* =================================================
-   * UI HELPERS
-   * ================================================= */
-
-  function setStatus(
-    message
-  ) {
-
-    var el =
-      document.getElementById(
-        'status'
-      );
-
-    if (el) {
-
-      el.textContent =
-        message || '';
-
-    }
-
-  }
-
-
-  function debugText(
-    message
-  ) {
-
-    var el =
-      document.getElementById(
-        'debugText'
-      );
-
-    if (el) {
-
-      el.textContent =
-        message || '';
-
-    }
-
-  }
-
-
-  function hideMessages() {
-
-    var success =
-      document.getElementById(
-        'successBox'
-      );
-
-    var error =
-      document.getElementById(
-        'errorBox'
-      );
-
-
-    if (success) {
-
-      success.style.display =
-        'none';
-
-    }
-
-
-    if (error) {
-
-      error.style.display =
-        'none';
-
-    }
-
-  }
-
-
-  function showError(
-    message
-  ) {
-
-    var el =
-      document.getElementById(
-        'errorBox'
-      );
-
-    if (!el) {
-      return;
-    }
-
-
-    el.textContent =
-      message || 'เกิดข้อผิดพลาด';
-
-
-    el.style.display =
-      'block';
-
-  }
-
-
-  function showFatalError(
-    message
-  ) {
-
-    var loading =
-      document.getElementById(
-        'loading'
-      );
-
-    if (!loading) {
-      return;
-    }
-
-
-    loading.innerHTML =
-      'เกิดข้อผิดพลาด<br><br>' +
-      '<strong>' +
-      escapeHtml(
-        message
-      ) +
-      '</strong>' +
-      '<div class="debug">' +
-      'กรุณารีโหลดหน้าอีกครั้ง' +
+      '<div class="assignee-empty">' +
+      'ยังไม่ได้เลือกผู้รับผิดชอบ' +
       '</div>';
 
+
+    return;
+
   }
 
 
-  function escapeHtml(
-    value
-  ) {
+  container.innerHTML =
+    '';
 
-    return String(
-      value === undefined ||
-      value === null
-        ? ''
-        : value
-    )
-      .replace(
-        /&/g,
-        '&amp;'
-      )
-      .replace(
-        /</g,
-        '&lt;'
-      )
-      .replace(
-        />/g,
-        '&gt;'
-      )
-      .replace(
-        /"/g,
-        '&quot;'
-      )
-      .replace(
-        /'/g,
-        '&#039;'
+
+  selectedAssignees.forEach(
+    function(user, index) {
+
+      var chip =
+        document.createElement(
+          'div'
+        );
+
+
+      chip.className =
+        'assignee-chip';
+
+
+      chip.innerHTML =
+        '<span>' +
+        escapeHtml(
+          user.name ||
+          user.displayName ||
+          '-'
+        ) +
+        '</span>' +
+
+        '<button ' +
+        'type="button" ' +
+        'onclick="removeAssignee(' +
+        index +
+        ')">' +
+
+        '×' +
+
+        '</button>';
+
+
+      container.appendChild(
+        chip
       );
 
+    }
+  );
+
+}
+
+
+/* =====================================================
+   REMOVE ASSIGNEE
+===================================================== */
+
+function removeAssignee(
+  index
+) {
+
+  selectedAssignees.splice(
+    index,
+    1
+  );
+
+
+  renderSelectedAssignees();
+
+
+  renderAssigneeSelect();
+
+}
+
+
+/* =====================================================
+   LOADING UI
+===================================================== */
+
+function setLoading(
+  message,
+  debug
+) {
+
+  var messageEl =
+    document.getElementById(
+      'loadingMessage'
+    );
+
+
+  var debugEl =
+    document.getElementById(
+      'debugText'
+    );
+
+
+  if (messageEl) {
+
+    messageEl.textContent =
+      message || '';
+
   }
+
+
+  if (debugEl) {
+
+    debugEl.textContent =
+      debug || '';
+
+  }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function setStatus(
+  message
+) {
+
+  var el =
+    document.getElementById(
+      'status'
+    );
+
+
+  if (el) {
+
+    el.textContent =
+      message || '';
+
+  }
+
+}
+
+
+/* =====================================================
+   HIDE MESSAGES
+===================================================== */
+
+function hideMessages() {
+
+  var success =
+    document.getElementById(
+      'successBox'
+    );
+
+
+  var error =
+    document.getElementById(
+      'errorBox'
+    );
+
+
+  if (success) {
+
+    success.style.display =
+      'none';
+
+  }
+
+
+  if (error) {
+
+    error.style.display =
+      'none';
+
+  }
+
+}
+
+
+/* =====================================================
+   SHOW ERROR
+===================================================== */
+
+function showError(
+  message
+) {
+
+  var el =
+    document.getElementById(
+      'errorBox'
+    );
+
+
+  if (!el) {
+    return;
+  }
+
+
+  el.textContent =
+    message ||
+    'เกิดข้อผิดพลาด';
+
+
+  el.style.display =
+    'block';
+
+}
+
+
+/* =====================================================
+   FATAL ERROR
+===================================================== */
+
+function showFatalError(
+  message
+) {
+
+  var loading =
+    document.getElementById(
+      'loading'
+    );
+
+
+  if (!loading) {
+    return;
+  }
+
+
+  loading.innerHTML =
+
+    '<div style="font-size:40px;margin-bottom:15px;">⚠️</div>' +
+
+    '<div style="font-weight:600;color:#c62828;">' +
+
+    'ไม่สามารถเปิดระบบได้' +
+
+    '</div>' +
+
+    '<div style="margin-top:10px;font-size:14px;">' +
+
+    escapeHtml(
+      message
+    ) +
+
+    '</div>' +
+
+    '<button ' +
+    'class="retry-button" ' +
+    'onclick="location.reload()">' +
+
+    'ลองใหม่อีกครั้ง' +
+
+    '</button>' +
+
+    '<div class="debug">' +
+
+    'PPM Work Plan' +
+
+    '</div>';
+
+}
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value === undefined ||
+    value === null
+      ? ''
+      : value
+  )
+
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+
+    .replace(
+      /</g,
+      '&lt;'
+    )
+
+    .replace(
+      />/g,
+      '&gt;'
+    )
+
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+
+}
 
 </script>
 
