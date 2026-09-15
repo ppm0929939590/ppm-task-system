@@ -1,15 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
-
->
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PPM Work Plan</title>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
@@ -231,179 +224,149 @@ content="width=device-width, initial-scale=1.0"
       word-break: break-all;
     }
   </style>
-
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-```
-<div class="header">
-  <h1>เพิ่มงานใหม่</h1>
-  <p>PPM Work Plan</p>
-</div>
-
-<div id="loading" class="loading">
-  กำลังเชื่อมต่อ LINE...
-  <div id="debugText" class="debug"></div>
-</div>
-
-<div id="mainContent" style="display:none;">
-
-  <div class="user-box">
-    <div class="user-label">
-      ผู้บันทึกงาน
-    </div>
-
-    <div id="currentUserName" class="user-name">
-      -
-    </div>
+  <div class="header">
+    <h1>เพิ่มงานใหม่</h1>
+    <p>PPM Work Plan</p>
   </div>
 
-  <div class="card">
+  <div id="loading" class="loading">
+    กำลังเชื่อมต่อ LINE...
+    <div id="debugText" class="debug"></div>
+  </div>
 
-    <div class="field">
-      <label>
-        หมวดหมู่งาน
-        <span class="required">*</span>
-      </label>
+  <div id="mainContent" style="display:none;">
 
-      <select id="category">
-        <option value="">
-          เลือกหมวดหมู่
-        </option>
-      </select>
+    <div class="user-box">
+      <div class="user-label">ผู้บันทึกงาน</div>
+      <div id="currentUserName" class="user-name">-</div>
     </div>
 
-    <div class="field">
-      <label>
-        ลูกค้า
-        <span class="required">*</span>
-      </label>
+    <div class="card">
 
-      <input
-        id="customer"
-        type="text"
-        placeholder="ระบุชื่อลูกค้า"
-      >
-    </div>
+      <div class="field">
+        <label>
+          หมวดหมู่งาน
+          <span class="required">*</span>
+        </label>
 
-    <div class="field">
-      <label>
-        สถานที่
-      </label>
+        <select id="category">
+          <option value="">เลือกหมวดหมู่</option>
+        </select>
+      </div>
 
-      <input
-        id="location"
-        type="text"
-        placeholder="ระบุสถานที่"
-      >
-    </div>
+      <div class="field">
+        <label>
+          ลูกค้า
+          <span class="required">*</span>
+        </label>
 
-    <div class="field">
-      <label>
-        รายละเอียดงาน
-        <span class="required">*</span>
-      </label>
+        <input
+          id="customer"
+          type="text"
+          placeholder="ระบุชื่อลูกค้า"
+        >
+      </div>
 
-      <textarea
-        id="detail"
-        placeholder="รายละเอียดงานที่ต้องทำ"
-      ></textarea>
-    </div>
+      <div class="field">
+        <label>สถานที่</label>
 
-    <div class="field">
+        <input
+          id="location"
+          type="text"
+          placeholder="ระบุสถานที่"
+        >
+      </div>
 
-      <label>
-        ผู้รับผิดชอบ
-        <span class="required">*</span>
-      </label>
+      <div class="field">
+        <label>
+          รายละเอียดงาน
+          <span class="required">*</span>
+        </label>
 
-      <div class="assignee-box">
+        <textarea
+          id="detail"
+          placeholder="รายละเอียดงานที่ต้องทำ"
+        ></textarea>
+      </div>
 
-        <div id="assigneeList" class="assignee-list">
-          <div class="assignee-empty">
-            ยังไม่ได้เลือกผู้รับผิดชอบ
+      <div class="field">
+
+        <label>
+          ผู้รับผิดชอบ
+          <span class="required">*</span>
+        </label>
+
+        <div class="assignee-box">
+
+          <div id="assigneeList" class="assignee-list">
+            <div class="assignee-empty">
+              ยังไม่ได้เลือกผู้รับผิดชอบ
+            </div>
           </div>
+
+          <div class="assignee-select">
+            <select id="assigneeSelect">
+              <option value="">+ เพิ่มผู้รับผิดชอบ</option>
+            </select>
+          </div>
+
         </div>
 
-        <div class="assignee-select">
-
-          <select id="assigneeSelect">
-            <option value="">
-              + เพิ่มผู้รับผิดชอบ
-            </option>
-          </select>
-
+        <div class="hint">
+          สามารถเลือกผู้รับผิดชอบได้มากกว่า 1 คน
         </div>
 
       </div>
 
-      <div class="hint">
-        สามารถเลือกผู้รับผิดชอบได้มากกว่า 1 คน
+      <div class="field">
+
+        <label>ผู้ตรวจ</label>
+
+        <select id="reviewer">
+          <option value="">เลือกผู้ตรวจ</option>
+        </select>
+
       </div>
 
-    </div>
+      <div class="field">
 
-    <div class="field">
+        <label>
+          กำหนดส่ง
+          <span class="required">*</span>
+        </label>
 
-      <label>
-        ผู้ตรวจ
-      </label>
+        <input id="dueDate" type="date">
 
-      <select id="reviewer">
+      </div>
 
-        <option value="">
-          เลือกผู้ตรวจ
-        </option>
-
-      </select>
-
-    </div>
-
-    <div class="field">
-
-      <label>
-        กำหนดส่ง
-        <span class="required">*</span>
-      </label>
-
-      <input
-        id="dueDate"
-        type="date"
+      <button
+        id="saveButton"
+        class="button"
+        onclick="saveJob()"
       >
+        เพิ่มงาน
+      </button>
+
+      <div id="status" class="status"></div>
+
+      <div id="successBox" class="success">
+        <strong>เพิ่มงานเรียบร้อยแล้ว 🎉</strong>
+        <div id="successMessage"></div>
+      </div>
+
+      <div id="errorBox" class="error"></div>
 
     </div>
-
-    <button
-      id="saveButton"
-      class="button"
-      onclick="saveJob()"
-    >
-      เพิ่มงาน
-    </button>
-
-    <div id="status" class="status"></div>
-
-    <div id="successBox" class="success">
-
-      <strong>
-        เพิ่มงานเรียบร้อยแล้ว 🎉
-      </strong>
-
-      <div id="successMessage"></div>
-
-    </div>
-
-    <div id="errorBox" class="error"></div>
 
   </div>
 
 </div>
-```
-
-  </div>
 
 <script>
 
@@ -417,11 +380,8 @@ content="width=device-width, initial-scale=1.0"
   var API_URL =
     'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
 
-
   var currentUser = null;
-
   var users = [];
-
   var selectedAssignees = [];
 
 
@@ -448,10 +408,6 @@ content="width=device-width, initial-scale=1.0"
       );
 
 
-      /* ---------------------------------------------
-       * ตรวจว่า LIFF SDK โหลดแล้วหรือยัง
-       * --------------------------------------------- */
-
       if (
         typeof liff === 'undefined'
       ) {
@@ -468,18 +424,9 @@ content="width=device-width, initial-scale=1.0"
       );
 
 
-      /* ---------------------------------------------
-       * LIFF INIT
-       * --------------------------------------------- */
-
       await liff.init({
-
-        liffId:
-          LIFF_ID,
-
-        withLoginOnExternalBrowser:
-          true
-
+        liffId: LIFF_ID,
+        withLoginOnExternalBrowser: true
       });
 
 
@@ -487,10 +434,6 @@ content="width=device-width, initial-scale=1.0"
         'LIFF พร้อมใช้งาน'
       );
 
-
-      /* ---------------------------------------------
-       * LOGIN
-       * --------------------------------------------- */
 
       if (
         !liff.isLoggedIn()
@@ -510,10 +453,6 @@ content="width=device-width, initial-scale=1.0"
 
       }
 
-
-      /* ---------------------------------------------
-       * GET PROFILE
-       * --------------------------------------------- */
 
       setStatus(
         'กำลังอ่านข้อมูล LINE...'
@@ -557,10 +496,6 @@ content="width=device-width, initial-scale=1.0"
       );
 
 
-      /* ---------------------------------------------
-       * CALL BACKEND
-       * --------------------------------------------- */
-
       setStatus(
         'กำลังโหลดข้อมูลระบบ...'
       );
@@ -574,13 +509,11 @@ content="width=device-width, initial-scale=1.0"
         await apiGet(
           'initialData',
           {
-
             userId:
               currentUser.userId,
 
             displayName:
               currentUser.displayName
-
           }
         );
 
@@ -603,10 +536,6 @@ content="width=device-width, initial-scale=1.0"
 
       }
 
-
-      /* ---------------------------------------------
-       * SET DATA
-       * --------------------------------------------- */
 
       currentUser =
         data.user || currentUser;
@@ -632,10 +561,6 @@ content="width=device-width, initial-scale=1.0"
       renderAssigneeSelect();
 
 
-      /* ---------------------------------------------
-       * SHOW APP
-       * --------------------------------------------- */
-
       document
         .getElementById('loading')
         .style.display =
@@ -660,23 +585,12 @@ content="width=device-width, initial-scale=1.0"
       );
 
 
-      var message =
+      showFatalError(
         error &&
         error.message
           ? error.message
-          : String(error);
-
-
-      document
-        .getElementById('loading')
-        .innerHTML =
-          'เกิดข้อผิดพลาด<br><br>' +
-          '<strong>' +
-          escapeHtml(message) +
-          '</strong>' +
-          '<div class="debug">' +
-          'เปิด Console ของ Browser เพื่อดูรายละเอียดเพิ่มเติม' +
-          '</div>';
+          : String(error)
+      );
 
     }
 
@@ -703,16 +617,13 @@ content="width=device-width, initial-scale=1.0"
             Math.random() * 1000000
           );
 
-
         var script =
           document.createElement(
             'script'
           );
 
-
         var finished =
           false;
-
 
         var timeoutId =
           null;
@@ -720,9 +631,7 @@ content="width=device-width, initial-scale=1.0"
 
         function cleanup() {
 
-          if (
-            timeoutId
-          ) {
+          if (timeoutId) {
 
             clearTimeout(
               timeoutId
@@ -796,13 +705,6 @@ content="width=device-width, initial-scale=1.0"
         }
 
 
-        /*
-         * สำคัญ:
-         * callback ต้องอยู่บน window
-         * เพราะ Google Apps Script จะเรียก
-         * window.callbackName(...)
-         */
-
         window[
           callbackName
         ] = function(data) {
@@ -813,3 +715,901 @@ content="width=device-width, initial-scale=1.0"
           );
 
           finishSuccess(data);
+
+        };
+
+
+        script.onerror =
+          function() {
+
+            finishError(
+              new Error(
+                'ไม่สามารถเชื่อมต่อ Google Apps Script ได้'
+              )
+            );
+
+          };
+
+
+        var query = [];
+
+        query.push(
+          'action=' +
+          encodeURIComponent(
+            action
+          )
+        );
+
+        query.push(
+          'callback=' +
+          encodeURIComponent(
+            callbackName
+          )
+        );
+
+        query.push(
+          '_=' +
+          Date.now()
+        );
+
+
+        if (params) {
+
+          Object.keys(
+            params
+          ).forEach(
+            function(key) {
+
+              if (
+                params[key] !==
+                undefined &&
+                params[key] !==
+                null
+              ) {
+
+                query.push(
+                  encodeURIComponent(key) +
+                  '=' +
+                  encodeURIComponent(
+                    params[key]
+                  )
+                );
+
+              }
+
+            }
+          );
+
+        }
+
+
+        var url =
+          API_URL +
+          '?' +
+          query.join('&');
+
+
+        console.log(
+          'PPM JSONP URL:',
+          url
+        );
+
+
+        script.src =
+          url;
+
+
+        document.head.appendChild(
+          script
+        );
+
+
+        timeoutId =
+          setTimeout(
+            function() {
+
+              finishError(
+                new Error(
+                  'การเชื่อมต่อใช้เวลานานเกินไป กรุณาลองใหม่'
+                )
+              );
+
+            },
+            30000
+          );
+
+      }
+    );
+
+  }
+
+
+  /* =================================================
+   * SAVE JOB
+   * ================================================= */
+
+  async function saveJob() {
+
+    var button =
+      document.getElementById(
+        'saveButton'
+      );
+
+    var category =
+      document.getElementById(
+        'category'
+      ).value;
+
+    var customer =
+      document.getElementById(
+        'customer'
+      ).value.trim();
+
+    var location =
+      document.getElementById(
+        'location'
+      ).value.trim();
+
+    var detail =
+      document.getElementById(
+        'detail'
+      ).value.trim();
+
+    var reviewer =
+      document.getElementById(
+        'reviewer'
+      ).value;
+
+    var dueDate =
+      document.getElementById(
+        'dueDate'
+      ).value;
+
+
+    hideMessages();
+
+
+    if (!category) {
+
+      showError(
+        'กรุณาเลือกหมวดหมู่งาน'
+      );
+
+      return;
+
+    }
+
+
+    if (!customer) {
+
+      showError(
+        'กรุณาระบุชื่อลูกค้า'
+      );
+
+      return;
+
+    }
+
+
+    if (!detail) {
+
+      showError(
+        'กรุณาระบุรายละเอียดงาน'
+      );
+
+      return;
+
+    }
+
+
+    if (
+      selectedAssignees.length === 0
+    ) {
+
+      showError(
+        'กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน'
+      );
+
+      return;
+
+    }
+
+
+    if (!dueDate) {
+
+      showError(
+        'กรุณาระบุกำหนดส่ง'
+      );
+
+      return;
+
+    }
+
+
+    if (
+      !currentUser ||
+      !currentUser.userId
+    ) {
+
+      showError(
+        'ไม่พบข้อมูลผู้บันทึกงาน กรุณารีโหลดหน้า'
+      );
+
+      return;
+
+    }
+
+
+    button.disabled = true;
+
+    button.innerText =
+      'กำลังเพิ่มงาน...';
+
+
+    setStatus(
+      'กำลังบันทึกงาน...'
+    );
+
+
+    try {
+
+      var assigneeIds =
+        selectedAssignees
+          .map(
+            function(user) {
+              return user.userId;
+            }
+          )
+          .join(',');
+
+
+      var data =
+        await apiGet(
+          'saveJob',
+          {
+
+            category:
+              category,
+
+            customer:
+              customer,
+
+            location:
+              location,
+
+            detail:
+              detail,
+
+            assigneeIds:
+              assigneeIds,
+
+            reviewerId:
+              reviewer,
+
+            dueDate:
+              dueDate,
+
+            reporterId:
+              currentUser.userId
+
+          }
+        );
+
+
+      console.log(
+        'SAVE JOB RESPONSE:',
+        data
+      );
+
+
+      if (
+        !data ||
+        data.success !== true
+      ) {
+
+        throw new Error(
+          data && data.error
+            ? data.error
+            : 'ไม่สามารถบันทึกงานได้'
+        );
+
+      }
+
+
+      var jobId =
+        data.jobId ||
+        data.id ||
+        '-';
+
+
+      document
+        .getElementById(
+          'successMessage'
+        )
+        .innerHTML =
+          'รหัสงาน: <strong>' +
+          escapeHtml(
+            jobId
+          ) +
+          '</strong>';
+
+
+      document
+        .getElementById(
+          'successBox'
+        )
+        .style.display =
+          'block';
+
+
+      setStatus(
+        ''
+      );
+
+
+      document
+        .getElementById(
+          'category'
+        )
+        .value =
+          '';
+
+      document
+        .getElementById(
+          'customer'
+        )
+        .value =
+          '';
+
+      document
+        .getElementById(
+          'location'
+        )
+        .value =
+          '';
+
+      document
+        .getElementById(
+          'detail'
+        )
+        .value =
+          '';
+
+      document
+        .getElementById(
+          'reviewer'
+        )
+        .value =
+          '';
+
+      document
+        .getElementById(
+          'dueDate'
+        )
+        .value =
+          '';
+
+
+      selectedAssignees =
+        [];
+
+      renderSelectedAssignees();
+
+      renderAssigneeSelect();
+
+
+    }
+
+    catch (error) {
+
+      console.error(
+        'SAVE ERROR:',
+        error
+      );
+
+
+      showError(
+        error &&
+        error.message
+          ? error.message
+          : String(error)
+      );
+
+    }
+
+    finally {
+
+      button.disabled =
+        false;
+
+      button.innerText =
+        'เพิ่มงาน';
+
+    }
+
+  }
+
+
+  /* =================================================
+   * RENDER USER
+   * ================================================= */
+
+  function renderCurrentUser() {
+
+    var el =
+      document.getElementById(
+        'currentUserName'
+      );
+
+    if (!el) {
+      return;
+    }
+
+
+    el.textContent =
+      currentUser &&
+      currentUser.displayName
+        ? currentUser.displayName
+        : '-';
+
+  }
+
+
+  /* =================================================
+   * CATEGORY
+   * ================================================= */
+
+  function renderCategories(
+    categories
+  ) {
+
+    var select =
+      document.getElementById(
+        'category'
+      );
+
+    if (!select) {
+      return;
+    }
+
+
+    select.innerHTML =
+      '<option value="">เลือกหมวดหมู่</option>';
+
+
+    categories.forEach(
+      function(category) {
+
+        var option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          category;
+
+        option.textContent =
+          category;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =================================================
+   * USERS
+   * ================================================= */
+
+  function renderUsers() {
+
+    var reviewer =
+      document.getElementById(
+        'reviewer'
+      );
+
+
+    if (!reviewer) {
+      return;
+    }
+
+
+    reviewer.innerHTML =
+      '<option value="">เลือกผู้ตรวจ</option>';
+
+
+    users.forEach(
+      function(user) {
+
+        var option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          user.userId;
+
+        option.textContent =
+          user.name;
+
+        reviewer.appendChild(
+          option
+        );
+
+      }
+    );
+
+  }
+
+
+  /* =================================================
+   * ASSIGNEES
+   * ================================================= */
+
+  function renderAssigneeSelect() {
+
+    var select =
+      document.getElementById(
+        'assigneeSelect'
+      );
+
+    if (!select) {
+      return;
+    }
+
+
+    select.innerHTML =
+      '<option value="">+ เพิ่มผู้รับผิดชอบ</option>';
+
+
+    users.forEach(
+      function(user) {
+
+        var alreadySelected =
+          selectedAssignees.some(
+            function(selected) {
+
+              return (
+                selected.userId ===
+                user.userId
+              );
+
+            }
+          );
+
+
+        if (
+          alreadySelected
+        ) {
+
+          return;
+
+        }
+
+
+        var option =
+          document.createElement(
+            'option'
+          );
+
+        option.value =
+          user.userId;
+
+        option.textContent =
+          user.name;
+
+        select.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    select.onchange =
+      function() {
+
+        var userId =
+          this.value;
+
+
+        if (!userId) {
+          return;
+        }
+
+
+        var user =
+          users.find(
+            function(item) {
+
+              return (
+                item.userId ===
+                userId
+              );
+
+            }
+          );
+
+
+        if (
+          user &&
+          !selectedAssignees.some(
+            function(selected) {
+
+              return (
+                selected.userId ===
+                user.userId
+              );
+
+            }
+          )
+        ) {
+
+          selectedAssignees.push(
+            user
+          );
+
+        }
+
+
+        this.value =
+          '';
+
+
+        renderSelectedAssignees();
+
+        renderAssigneeSelect();
+
+      };
+
+  }
+
+
+  function renderSelectedAssignees() {
+
+    var container =
+      document.getElementById(
+        'assigneeList'
+      );
+
+    if (!container) {
+      return;
+    }
+
+
+    if (
+      selectedAssignees.length === 0
+    ) {
+
+      container.innerHTML =
+        '<div class="assignee-empty">' +
+        'ยังไม่ได้เลือกผู้รับผิดชอบ' +
+        '</div>';
+
+      return;
+
+    }
+
+
+    container.innerHTML =
+      '';
+
+
+    selectedAssignees.forEach(
+      function(user, index) {
+
+        var chip =
+          document.createElement(
+            'div'
+          );
+
+        chip.className =
+          'assignee-chip';
+
+
+        chip.innerHTML =
+          '<span>' +
+          escapeHtml(
+            user.name
+          ) +
+          '</span>' +
+          '<button type="button" ' +
+          'onclick="removeAssignee(' +
+          index +
+          ')">' +
+          '×' +
+          '</button>';
+
+
+        container.appendChild(
+          chip
+        );
+
+      }
+    );
+
+  }
+
+
+  function removeAssignee(
+    index
+  ) {
+
+    selectedAssignees.splice(
+      index,
+      1
+    );
+
+    renderSelectedAssignees();
+
+    renderAssigneeSelect();
+
+  }
+
+
+  /* =================================================
+   * UI HELPERS
+   * ================================================= */
+
+  function setStatus(
+    message
+  ) {
+
+    var el =
+      document.getElementById(
+        'status'
+      );
+
+    if (el) {
+
+      el.textContent =
+        message || '';
+
+    }
+
+  }
+
+
+  function debugText(
+    message
+  ) {
+
+    var el =
+      document.getElementById(
+        'debugText'
+      );
+
+    if (el) {
+
+      el.textContent =
+        message || '';
+
+    }
+
+  }
+
+
+  function hideMessages() {
+
+    var success =
+      document.getElementById(
+        'successBox'
+      );
+
+    var error =
+      document.getElementById(
+        'errorBox'
+      );
+
+
+    if (success) {
+
+      success.style.display =
+        'none';
+
+    }
+
+
+    if (error) {
+
+      error.style.display =
+        'none';
+
+    }
+
+  }
+
+
+  function showError(
+    message
+  ) {
+
+    var el =
+      document.getElementById(
+        'errorBox'
+      );
+
+    if (!el) {
+      return;
+    }
+
+
+    el.textContent =
+      message || 'เกิดข้อผิดพลาด';
+
+
+    el.style.display =
+      'block';
+
+  }
+
+
+  function showFatalError(
+    message
+  ) {
+
+    var loading =
+      document.getElementById(
+        'loading'
+      );
+
+    if (!loading) {
+      return;
+    }
+
+
+    loading.innerHTML =
+      'เกิดข้อผิดพลาด<br><br>' +
+      '<strong>' +
+      escapeHtml(
+        message
+      ) +
+      '</strong>' +
+      '<div class="debug">' +
+      'กรุณารีโหลดหน้าอีกครั้ง' +
+      '</div>';
+
+  }
+
+
+  function escapeHtml(
+    value
+  ) {
+
+    return String(
+      value === undefined ||
+      value === null
+        ? ''
+        : value
+    )
+      .replace(
+        /&/g,
+        '&amp;'
+      )
+      .replace(
+        /</g,
+        '&lt;'
+      )
+      .replace(
+        />/g,
+        '&gt;'
+      )
+      .replace(
+        /"/g,
+        '&quot;'
+      )
+      .replace(
+        /'/g,
+        '&#039;'
+      );
+
+  }
+
+</script>
+
+</body>
+</html>
