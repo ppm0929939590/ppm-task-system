@@ -1,1824 +1,1200 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PPM Work Plan</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPM Work Plan</title>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
-      background: #f5f6f8;
-      color: #222;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 680px;
-      margin: auto;
-      padding: 20px 16px 40px;
-    }
-
-    .header {
-      margin-bottom: 20px;
-    }
-
-    .header h1 {
-      margin: 0 0 6px;
-      font-size: 25px;
-    }
-
-    .header p {
-      margin: 0;
-      color: #777;
-      font-size: 14px;
-    }
-
-    .user-box {
-      background: white;
-      border-radius: 16px;
-      padding: 14px 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 10px rgba(0,0,0,.05);
-    }
-
-    .user-label {
-      font-size: 12px;
-      color: #888;
-      margin-bottom: 4px;
-    }
-
-    .user-name {
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: 0 2px 12px rgba(0,0,0,.05);
-    }
-
-    .field {
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .required {
-      color: #e53935;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #ddd;
-      border-radius: 11px;
-      padding: 12px 13px;
-      font-size: 15px;
-      font-family: inherit;
-      background: white;
-      outline: none;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #111;
-    }
-
-    textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .assignee-box {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 10px;
-      background: #fff;
-    }
-
-    .assignee-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      min-height: 30px;
-    }
-
-    .assignee-empty {
-      color: #999;
-      font-size: 14px;
-      padding: 4px;
-    }
-
-    .assignee-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: #f0f1f3;
-      border-radius: 999px;
-      padding: 7px 11px;
-      font-size: 13px;
-    }
-
-    .assignee-chip button {
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      padding: 0;
-      font-size: 16px;
-      line-height: 1;
-      color: #777;
-    }
-
-    .assignee-select {
-      margin-top: 10px;
-    }
-
-    .hint {
-      font-size: 12px;
-      color: #888;
-      margin-top: 7px;
-    }
-
-    .button {
-      width: 100%;
-      border: none;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      background: #111;
-      color: white;
-    }
-
-    .button:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
-
-    .status {
-      text-align: center;
-      margin: 15px 0;
-      font-size: 14px;
-      color: #777;
-      min-height: 20px;
-    }
-
-    .success {
-      background: #eef8ef;
-      color: #24752b;
-      border-radius: 12px;
-      padding: 15px;
-      margin-top: 15px;
-      display: none;
-    }
-
-    .success strong {
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .error {
-      background: #fff0f0;
-      color: #c62828;
-      border-radius: 12px;
-      padding: 13px;
-      margin-top: 15px;
-      display: none;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px 20px;
-      color: #777;
-    }
-
-    .loading-spinner {
-      width: 30px;
-      height: 30px;
-      border: 3px solid #ddd;
-      border-top-color: #111;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .debug {
-      margin-top: 10px;
-      font-size: 11px;
-      color: #aaa;
-      text-align: center;
-      word-break: break-all;
-    }
-
-    .retry-button {
-      margin-top: 16px;
-      border: none;
-      background: #111;
-      color: white;
-      border-radius: 10px;
-      padding: 10px 18px;
-      font-size: 14px;
-      cursor: pointer;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f5f6f8;color:#222}
+.container{width:100%;max-width:700px;margin:auto;padding:18px 14px 40px}
+.header{margin-bottom:15px}
+.header h1{margin:0 0 4px;font-size:24px}
+.header p{margin:0;color:#777;font-size:13px}
+.user-box,.card,.job-card,.reminder-card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.05);margin-bottom:12px}
+.user-label{font-size:12px;color:#888}
+.user-name{font-size:16px;font-weight:600;margin-top:3px}
+.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.nav button{border:0;border-radius:11px;padding:10px 5px;background:#fff;font-size:12px;cursor:pointer}
+.nav button.active{background:#111;color:#fff}
+.field{margin-bottom:15px}
+label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+input,textarea,select{width:100%;border:1px solid #ddd;border-radius:10px;padding:11px 12px;font:inherit;background:#fff;outline:none}
+textarea{min-height:100px;resize:vertical}
+.button{width:100%;border:0;border-radius:11px;padding:13px;background:#111;color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+.button.secondary{background:#eee;color:#222}
+.button.danger{background:#c62828}
+.button.green{background:#238636}
+.button:disabled{opacity:.5}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+.assignee-box{border:1px solid #ddd;border-radius:11px;padding:9px}
+.assignee-list{display:flex;flex-wrap:wrap;gap:6px}
+.assignee-chip{background:#f0f1f3;border-radius:99px;padding:6px 9px;font-size:12px}
+.assignee-chip button{border:0;background:none;margin-left:4px}
+.status{font-size:13px;color:#777;text-align:center;margin:10px 0;min-height:18px}
+.success,.error{padding:12px;border-radius:11px;margin-top:10px;font-size:13px}
+.success{background:#eef8ef;color:#24752b}
+.error{background:#fff0f0;color:#c62828}
+.hidden{display:none!important}
+.page-title{font-size:19px;font-weight:700;margin:8px 0 12px}
+.job-card h3,.reminder-card h3{margin:0 0 5px;font-size:16px}
+.job-meta,.reminder-meta{font-size:12px;color:#777;line-height:1.7}
+.job-desc{font-size:13px;margin:8px 0;line-height:1.5}
+.badge{display:inline-block;padding:5px 9px;border-radius:99px;background:#eee;font-size:11px;margin:5px 0 9px}
+.badge.blue{background:#e8f1ff;color:#2463b5}
+.badge.yellow{background:#fff4cc;color:#856404}
+.badge.red{background:#ffe5e5;color:#b42318}
+.badge.green{background:#e6f6e9;color:#237a35}
+.card-actions{display:flex;gap:7px;margin-top:10px}
+.card-actions button{flex:1;border:0;border-radius:9px;padding:9px 6px;font-size:12px;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-end;justify-content:center;z-index:99}
+.modal-box{background:#fff;width:100%;max-width:700px;border-radius:20px 20px 0 0;padding:20px;max-height:90vh;overflow:auto}
+.modal-title{font-size:19px;font-weight:700;margin-bottom:12px}
+.loading{text-align:center;padding:60px 20px;color:#777}
+.spinner{width:30px;height:30px;border:3px solid #ddd;border-top-color:#111;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 15px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{background:#fff;border-radius:12px;padding:12px;text-align:center}
+.stat strong{display:block;font-size:21px}
+.stat span{font-size:11px;color:#777}
+.empty{text-align:center;color:#999;padding:35px 15px;background:#fff;border-radius:15px}
+.debug{font-size:10px;color:#aaa;word-break:break-all;margin-top:8px}
+</style>
 </head>
 
 <body>
 
 <div class="container">
 
-  <div class="header">
-    <h1>เพิ่มงานใหม่</h1>
-    <p>PPM Work Plan</p>
-  </div>
-
-  <div id="loading" class="loading">
-
-    <div class="loading-spinner"></div>
-
-    <div id="loadingMessage">
-      กำลังเชื่อมต่อ LINE...
-    </div>
-
-    <div id="debugText" class="debug"></div>
-
-  </div>
-
-
-  <div id="mainContent" style="display:none;">
-
-    <div class="user-box">
-
-      <div class="user-label">
-        ผู้บันทึกงาน
-      </div>
-
-      <div id="currentUserName" class="user-name">
-        -
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="field">
-
-        <label>
-          หมวดหมู่งาน
-          <span class="required">*</span>
-        </label>
-
-        <select id="category">
-
-          <option value="">
-            เลือกหมวดหมู่
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          ลูกค้า
-          <span class="required">*</span>
-        </label>
-
-        <input
-          id="customer"
-          type="text"
-          placeholder="ระบุชื่อลูกค้า"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          สถานที่
-        </label>
-
-        <input
-          id="location"
-          type="text"
-          placeholder="ระบุสถานที่"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          รายละเอียดงาน
-          <span class="required">*</span>
-        </label>
-
-        <textarea
-          id="detail"
-          placeholder="รายละเอียดงานที่ต้องทำ"
-        ></textarea>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          ผู้รับผิดชอบ
-          <span class="required">*</span>
-        </label>
-
-        <div class="assignee-box">
-
-          <div
-            id="assigneeList"
-            class="assignee-list"
-          >
-
-            <div class="assignee-empty">
-              ยังไม่ได้เลือกผู้รับผิดชอบ
-            </div>
-
-          </div>
-
-
-          <div class="assignee-select">
-
-            <select id="assigneeSelect">
-
-              <option value="">
-                + เพิ่มผู้รับผิดชอบ
-              </option>
-
-            </select>
-
-          </div>
-
-        </div>
-
-        <div class="hint">
-          สามารถเลือกผู้รับผิดชอบได้มากกว่า 1 คน
-        </div>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          ผู้ตรวจ
-        </label>
-
-        <select id="reviewer">
-
-          <option value="">
-            เลือกผู้ตรวจ
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label>
-          กำหนดส่ง
-          <span class="required">*</span>
-        </label>
-
-        <input
-          id="dueDate"
-          type="date"
-        >
-
-      </div>
-
-
-      <button
-        id="saveButton"
-        class="button"
-        type="button"
-        onclick="saveJob()"
-      >
-        เพิ่มงาน
-      </button>
-
-
-      <div
-        id="status"
-        class="status"
-      ></div>
-
-
-      <div
-        id="successBox"
-        class="success"
-      >
-
-        <strong>
-          เพิ่มงานเรียบร้อยแล้ว 🎉
-        </strong>
-
-        <div id="successMessage"></div>
-
-      </div>
-
-
-      <div
-        id="errorBox"
-        class="error"
-      ></div>
-
-    </div>
-
-  </div>
-
+<div id="loading" class="loading">
+  <div class="spinner"></div>
+  <div id="loadingText">กำลังเชื่อมต่อ LINE...</div>
+  <div id="debugText" class="debug"></div>
 </div>
 
+<div id="app" class="hidden">
+
+  <div class="header">
+    <h1>PPM Work Plan</h1>
+    <p>ระบบจัดการงานภายใน</p>
+  </div>
+
+  <div class="user-box">
+    <div class="user-label">ผู้ใช้งาน</div>
+    <div id="userName" class="user-name">-</div>
+  </div>
+
+  <div class="nav">
+    <button id="navJobs" onclick="showPage('jobs')">📁 งานของฉัน</button>
+    <button onclick="showPage('add')">📋 เพิ่มงาน</button>
+    <button onclick="showPage('review')">🔔 รอตรวจ</button>
+    <button onclick="showPage('dashboard')">📊 ภาพรวม</button>
+    <button onclick="showPage('reminders')">⏰ เตือนความจำ</button>
+    <button onclick="showPage('profile')">👤 โปรไฟล์</button>
+  </div>
+
+  <div id="page"></div>
+
+</div>
+</div>
+
+<div id="modal" class="modal hidden">
+  <div class="modal-box">
+    <div id="modalContent"></div>
+  </div>
+</div>
 
 <script>
 
-var LIFF_ID =
-  '2011608457-HhlDakb3';
+var LIFF_ID='2011608457-HhlDakb3';
 
-var API_URL =
-  'https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
+var API_URL='https://script.google.com/macros/s/AKfycbzNcIThEeOcE9I_am2IV_rXTIaDC1nCgRtZWrt5UhdjaLPdRds0wdPhpDfqYdi77Q4BTA/exec';
 
-
-var currentUser = null;
-var users = [];
-var selectedAssignees = [];
-var systemStarted = false;
+var currentUser=null;
+var users=[];
+var categories=[];
+var selectedAssignees=[];
+var currentPage='jobs';
 
 
-window.addEventListener(
-  'load',
-  function() {
-
-    setTimeout(
-      function() {
-        startSystem();
-      },
-      300
-    );
-
-  }
-);
+window.addEventListener('load',function(){
+  setTimeout(startSystem,300);
+});
 
 
-async function startSystem() {
+async function startSystem(){
 
-  if (systemStarted) {
-    return;
-  }
+  try{
 
-  systemStarted = true;
-
-  try {
-
-    setLoading(
-      'กำลังตรวจสอบ LINE...',
-      'เริ่มต้นระบบ'
-    );
-
-    if (
-      typeof liff === 'undefined'
-    ) {
-
-      throw new Error(
-        'ไม่พบ LINE LIFF SDK'
-      );
-
-    }
-
-    setLoading(
-      'กำลังเริ่มระบบ LINE...',
-      'พบ LIFF SDK แล้ว'
-    );
+    setLoading('กำลังเริ่มระบบ LINE...','');
 
     await withTimeout(
       liff.init({
-        liffId: LIFF_ID,
-        withLoginOnExternalBrowser: true
+        liffId:LIFF_ID,
+        withLoginOnExternalBrowser:true
       }),
       15000,
       'LIFF ใช้เวลาเชื่อมต่อนานเกินไป'
     );
 
-    console.log(
-      '✅ LIFF INIT SUCCESS'
-    );
-
-    if (!liff.isLoggedIn()) {
-
-      setLoading(
-        'กำลังเข้าสู่ระบบ LINE...',
-        'ยังไม่ได้ Login'
-      );
-
+    if(!liff.isLoggedIn()){
+      setLoading('กำลังเข้าสู่ระบบ LINE...','');
       liff.login();
-
       return;
-
     }
 
-    setLoading(
-      'กำลังอ่านข้อมูล LINE...',
-      'เข้าสู่ระบบแล้ว'
+    setLoading('กำลังอ่านข้อมูล LINE...','');
+
+    var profile=await withTimeout(
+      liff.getProfile(),
+      15000,
+      'ไม่สามารถอ่านข้อมูล LINE ได้'
     );
 
-    var profile =
-      await withTimeout(
-        liff.getProfile(),
-        15000,
-        'ไม่สามารถอ่านข้อมูล LINE ได้'
-      );
-
-    if (
-      !profile ||
-      !profile.userId
-    ) {
-
-      throw new Error(
-        'ไม่พบ LINE User ID'
-      );
-
+    if(!profile||!profile.userId){
+      throw new Error('ไม่พบ LINE User ID');
     }
 
-    currentUser = {
-
-      userId:
-        profile.userId,
-
-      displayName:
-        profile.displayName || ''
-
+    currentUser={
+      userId:profile.userId,
+      displayName:profile.displayName||''
     };
 
-    setLoading(
-      'กำลังโหลดข้อมูลระบบ...',
-      'LINE: ' +
-      currentUser.displayName
-    );
+    setLoading('กำลังโหลดข้อมูลระบบ...','');
 
-    var data =
-      await apiGet(
-        'initialData',
-        {
+    var data=await apiGet('initialData',{
+      userId:currentUser.userId,
+      displayName:currentUser.displayName
+    });
 
-          userId:
-            currentUser.userId,
-
-          displayName:
-            currentUser.displayName
-
-        }
-      );
-
-
-    if (
-      !data ||
-      data.success !== true
-    ) {
-
-      throw new Error(
-        data &&
-        data.error
-          ? data.error
-          : 'ระบบไม่สามารถส่งข้อมูลกลับมาได้'
-      );
-
+    if(!data||data.success!==true){
+      throw new Error(data&&data.error?data.error:'โหลดข้อมูลไม่สำเร็จ');
     }
 
+    currentUser=data.user||currentUser;
+    users=data.users||[];
+    categories=data.categories||[];
 
-    currentUser =
-      data.user ||
-      currentUser;
+    document.getElementById('userName').textContent=
+      currentUser.systemName||currentUser.displayName||'-';
 
+    document.getElementById('loading').classList.add('hidden');
+    document.getElementById('app').classList.remove('hidden');
 
-    users =
-      Array.isArray(
-        data.users
-      )
-        ? data.users
-        : [];
+    showPage('jobs');
 
+  }catch(error){
 
-    renderCurrentUser();
-
-    renderCategories(
-      Array.isArray(
-        data.categories
-      )
-        ? data.categories
-        : []
-    );
-
-    renderUsers();
-
-    renderSelectedAssignees();
-
-    renderAssigneeSelect();
-
-
-    document
-      .getElementById(
-        'loading'
-      )
-      .style.display =
-        'none';
-
-
-    document
-      .getElementById(
-        'mainContent'
-      )
-      .style.display =
-        'block';
-
-
-    setStatus('');
-
-
-  }
-
-  catch (error) {
-
-    console.error(
-      '❌ PPM START ERROR:',
-      error
-    );
-
-    systemStarted = false;
-
-    showFatalError(
-      error &&
-      error.message
-        ? error.message
-        : String(error)
-    );
+    document.getElementById('loading').innerHTML=
+      '<div style="font-size:40px">⚠️</div>'+
+      '<b>ไม่สามารถเปิดระบบได้</b>'+
+      '<p>'+escapeHtml(error.message||String(error))+'</p>'+
+      '<button class="button" onclick="location.reload()">ลองใหม่</button>';
 
   }
 
 }
 
 
-function withTimeout(
-  promise,
-  milliseconds,
-  errorMessage
-) {
+function withTimeout(promise,ms,msg){
 
-  return new Promise(
-    function(resolve, reject) {
+  return new Promise(function(resolve,reject){
 
-      var finished =
-        false;
+    var done=false;
 
-      var timer =
-        setTimeout(
-          function() {
+    var timer=setTimeout(function(){
+      if(done)return;
+      done=true;
+      reject(new Error(msg));
+    },ms);
 
-            if (finished) {
-              return;
-            }
+    Promise.resolve(promise).then(function(v){
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      resolve(v);
+    }).catch(function(e){
+      if(done)return;
+      done=true;
+      clearTimeout(timer);
+      reject(e);
+    });
 
-            finished = true;
-
-            reject(
-              new Error(
-                errorMessage
-              )
-            );
-
-          },
-          milliseconds
-        );
-
-
-      Promise.resolve(
-        promise
-      )
-        .then(
-          function(value) {
-
-            if (finished) {
-              return;
-            }
-
-            finished = true;
-
-            clearTimeout(
-              timer
-            );
-
-            resolve(value);
-
-          }
-        )
-        .catch(
-          function(error) {
-
-            if (finished) {
-              return;
-            }
-
-            finished = true;
-
-            clearTimeout(
-              timer
-            );
-
-            reject(error);
-
-          }
-        );
-
-    }
-  );
+  });
 
 }
 
 
-function apiGet(
-  action,
-  params
-) {
+function apiGet(action,params){
 
-  return new Promise(
-    function(resolve, reject) {
+  return new Promise(function(resolve,reject){
 
-      var callbackName =
-        'ppmJsonp_' +
-        Date.now() +
-        '_' +
-        Math.floor(
-          Math.random() * 1000000
-        );
+    var callback='ppm_'+Date.now()+'_'+Math.floor(Math.random()*999999);
 
-      var script =
-        document.createElement(
-          'script'
-        );
+    var script=document.createElement('script');
+    var finished=false;
 
-      var finished =
-        false;
+    var timer=setTimeout(function(){
+      finishError(new Error('ระบบใช้เวลานานเกินไป กรุณาลองใหม่'));
+    },30000);
 
-      var timeoutId =
-        null;
+    function cleanup(){
 
+      clearTimeout(timer);
 
-      function cleanup() {
-
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-
-        try {
-
-          delete window[
-            callbackName
-          ];
-
-        }
-
-        catch (e) {
-
-          window[
-            callbackName
-          ] = undefined;
-
-        }
-
-        if (
-          script &&
-          script.parentNode
-        ) {
-
-          script.parentNode.removeChild(
-            script
-          );
-
-        }
-
+      try{
+        delete window[callback];
+      }catch(e){
+        window[callback]=undefined;
       }
 
-
-      function finishSuccess(
-        data
-      ) {
-
-        if (finished) {
-          return;
-        }
-
-        finished = true;
-
-        cleanup();
-
-        resolve(data);
-
+      if(script.parentNode){
+        script.parentNode.removeChild(script);
       }
-
-
-      function finishError(
-        error
-      ) {
-
-        if (finished) {
-          return;
-        }
-
-        finished = true;
-
-        cleanup();
-
-        reject(error);
-
-      }
-
-
-      window[
-        callbackName
-      ] = function(data) {
-
-        console.log(
-          'PPM JSONP RESPONSE:',
-          data
-        );
-
-        finishSuccess(data);
-
-      };
-
-
-      script.onerror =
-        function() {
-
-          finishError(
-            new Error(
-              'ไม่สามารถเชื่อมต่อ Google Apps Script ได้'
-            )
-          );
-
-        };
-
-
-      var query = [];
-
-
-      query.push(
-        'action=' +
-        encodeURIComponent(action)
-      );
-
-
-      query.push(
-        'callback=' +
-        encodeURIComponent(callbackName)
-      );
-
-
-      query.push(
-        '_=' +
-        Date.now()
-      );
-
-
-      if (params) {
-
-        Object.keys(
-          params
-        ).forEach(
-          function(key) {
-
-            if (
-              params[key] !== undefined &&
-              params[key] !== null
-            ) {
-
-              query.push(
-                encodeURIComponent(key) +
-                '=' +
-                encodeURIComponent(
-                  params[key]
-                )
-              );
-
-            }
-
-          }
-        );
-
-      }
-
-
-      var url =
-        API_URL +
-        '?' +
-        query.join('&');
-
-
-      console.log(
-        'PPM JSONP URL:',
-        url
-      );
-
-
-      script.src =
-        url;
-
-
-      document
-        .head
-        .appendChild(script);
-
-
-      timeoutId =
-        setTimeout(
-          function() {
-
-            finishError(
-              new Error(
-                'การเชื่อมต่อ Google Apps Script ใช้เวลานานเกินไป กรุณาลองใหม่'
-              )
-            );
-
-          },
-          30000
-        );
-
-    }
-  );
-
-}
-
-
-async function saveJob() {
-
-  var button =
-    document.getElementById(
-      'saveButton'
-    );
-
-
-  var category =
-    document.getElementById(
-      'category'
-    ).value;
-
-
-  var customer =
-    document.getElementById(
-      'customer'
-    ).value.trim();
-
-
-  var location =
-    document.getElementById(
-      'location'
-    ).value.trim();
-
-
-  var detail =
-    document.getElementById(
-      'detail'
-    ).value.trim();
-
-
-  var reviewer =
-    document.getElementById(
-      'reviewer'
-    ).value;
-
-
-  var dueDate =
-    document.getElementById(
-      'dueDate'
-    ).value;
-
-
-  hideMessages();
-
-
-  if (!category) {
-
-    showError(
-      'กรุณาเลือกหมวดหมู่งาน'
-    );
-
-    return;
-
-  }
-
-
-  if (!customer) {
-
-    showError(
-      'กรุณาระบุชื่อลูกค้า'
-    );
-
-    return;
-
-  }
-
-
-  if (!detail) {
-
-    showError(
-      'กรุณาระบุรายละเอียดงาน'
-    );
-
-    return;
-
-  }
-
-
-  if (
-    selectedAssignees.length === 0
-  ) {
-
-    showError(
-      'กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน'
-    );
-
-    return;
-
-  }
-
-
-  if (!dueDate) {
-
-    showError(
-      'กรุณาระบุกำหนดส่ง'
-    );
-
-    return;
-
-  }
-
-
-  if (
-    !currentUser ||
-    !currentUser.userId
-  ) {
-
-    showError(
-      'ไม่พบข้อมูลผู้บันทึกงาน กรุณารีโหลดหน้า'
-    );
-
-    return;
-
-  }
-
-
-  button.disabled =
-    true;
-
-  button.innerText =
-    'กำลังเพิ่มงาน...';
-
-  setStatus(
-    'กำลังบันทึกงาน...'
-  );
-
-
-  try {
-
-    var assigneeIds =
-      selectedAssignees
-        .map(
-          function(user) {
-            return user.userId;
-          }
-        )
-        .join(',');
-
-
-    /*
-     * สำคัญ:
-     * Backend Code.gs ใช้ params.description
-     * ดังนั้นตรงนี้ต้องส่ง description
-     */
-
-    var data =
-      await apiGet(
-        'saveJob',
-        {
-
-          category:
-            category,
-
-          customer:
-            customer,
-
-          location:
-            location,
-
-          description:
-            detail,
-
-          assigneeIds:
-            assigneeIds,
-
-          reviewerId:
-            reviewer,
-
-          dueDate:
-            dueDate,
-
-          reporterId:
-            currentUser.userId
-
-        }
-      );
-
-
-    console.log(
-      'SAVE JOB RESPONSE:',
-      data
-    );
-
-
-    if (
-      !data ||
-      data.success !== true
-    ) {
-
-      throw new Error(
-        data &&
-        data.error
-          ? data.error
-          : 'ไม่สามารถบันทึกงานได้'
-      );
 
     }
 
+    function finishSuccess(data){
 
-    var jobId =
-      data.jobId ||
-      data.id ||
-      '-';
+      if(finished)return;
 
-
-    document
-      .getElementById(
-        'successMessage'
-      )
-      .innerHTML =
-        'รหัสงาน: <strong>' +
-        escapeHtml(jobId) +
-        '</strong>';
-
-
-    document
-      .getElementById(
-        'successBox'
-      )
-      .style.display =
-        'block';
-
-
-    setStatus('');
-
-
-    document
-      .getElementById(
-        'category'
-      )
-      .value =
-        '';
-
-
-    document
-      .getElementById(
-        'customer'
-      )
-      .value =
-        '';
-
-
-    document
-      .getElementById(
-        'location'
-      )
-      .value =
-        '';
-
-
-    document
-      .getElementById(
-        'detail'
-      )
-      .value =
-        '';
-
-
-    document
-      .getElementById(
-        'reviewer'
-      )
-      .value =
-        '';
-
-
-    document
-      .getElementById(
-        'dueDate'
-      )
-      .value =
-        '';
-
-
-    selectedAssignees = [];
-
-
-    renderSelectedAssignees();
-
-    renderAssigneeSelect();
-
-
-  }
-
-  catch (error) {
-
-    console.error(
-      '❌ SAVE ERROR:',
-      error
-    );
-
-
-    showError(
-      error &&
-      error.message
-        ? error.message
-        : String(error)
-    );
-
-  }
-
-  finally {
-
-    button.disabled =
-      false;
-
-    button.innerText =
-      'เพิ่มงาน';
-
-  }
-
-}
-
-
-function renderCurrentUser() {
-
-  var el =
-    document.getElementById(
-      'currentUserName'
-    );
-
-  if (!el) {
-    return;
-  }
-
-  el.textContent =
-    currentUser &&
-    currentUser.displayName
-      ? currentUser.displayName
-      : '-';
-
-}
-
-
-function renderCategories(
-  categories
-) {
-
-  var select =
-    document.getElementById(
-      'category'
-    );
-
-  if (!select) {
-    return;
-  }
-
-  select.innerHTML =
-    '<option value="">เลือกหมวดหมู่</option>';
-
-
-  categories.forEach(
-    function(category) {
-
-      var option =
-        document.createElement(
-          'option'
-        );
-
-      option.value =
-        category;
-
-      option.textContent =
-        category;
-
-      select.appendChild(
-        option
-      );
+      finished=true;
+      cleanup();
+      resolve(data);
 
     }
-  );
 
-}
+    function finishError(error){
 
+      if(finished)return;
 
-function renderUsers() {
-
-  var reviewer =
-    document.getElementById(
-      'reviewer'
-    );
-
-  if (!reviewer) {
-    return;
-  }
-
-  reviewer.innerHTML =
-    '<option value="">เลือกผู้ตรวจ</option>';
-
-
-  users.forEach(
-    function(user) {
-
-      if (
-        !user ||
-        !user.userId
-      ) {
-        return;
-      }
-
-      var option =
-        document.createElement(
-          'option'
-        );
-
-      option.value =
-        user.userId;
-
-      option.textContent =
-        user.name ||
-        user.displayName ||
-        '-';
-
-      reviewer.appendChild(
-        option
-      );
+      finished=true;
+      cleanup();
+      reject(error);
 
     }
-  );
 
-}
+    window[callback]=finishSuccess;
 
-
-function renderAssigneeSelect() {
-
-  var select =
-    document.getElementById(
-      'assigneeSelect'
-    );
-
-  if (!select) {
-    return;
-  }
-
-  select.innerHTML =
-    '<option value="">+ เพิ่มผู้รับผิดชอบ</option>';
-
-
-  users.forEach(
-    function(user) {
-
-      if (
-        !user ||
-        !user.userId
-      ) {
-        return;
-      }
-
-
-      var alreadySelected =
-        selectedAssignees.some(
-          function(selected) {
-
-            return (
-              selected.userId ===
-              user.userId
-            );
-
-          }
-        );
-
-
-      if (alreadySelected) {
-        return;
-      }
-
-
-      var option =
-        document.createElement(
-          'option'
-        );
-
-      option.value =
-        user.userId;
-
-      option.textContent =
-        user.name ||
-        user.displayName ||
-        '-';
-
-      select.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  select.onchange =
-    function() {
-
-      var userId =
-        this.value;
-
-      if (!userId) {
-        return;
-      }
-
-
-      var user =
-        users.find(
-          function(item) {
-
-            return (
-              item.userId ===
-              userId
-            );
-
-          }
-        );
-
-
-      if (
-        user &&
-        !selectedAssignees.some(
-          function(selected) {
-
-            return (
-              selected.userId ===
-              user.userId
-            );
-
-          }
-        )
-      ) {
-
-        selectedAssignees.push(user);
-
-      }
-
-
-      this.value =
-        '';
-
-      renderSelectedAssignees();
-
-      renderAssigneeSelect();
-
+    script.onerror=function(){
+      finishError(new Error('ไม่สามารถเชื่อมต่อ Google Apps Script ได้'));
     };
 
+    var query=[
+      'action='+encodeURIComponent(action),
+      'callback='+encodeURIComponent(callback),
+      '_='+Date.now()
+    ];
+
+    Object.keys(params||{}).forEach(function(key){
+
+      if(params[key]!==undefined&&params[key]!==null){
+
+        query.push(
+          encodeURIComponent(key)+'='+encodeURIComponent(params[key])
+        );
+
+      }
+
+    });
+
+    script.src=API_URL+'?'+query.join('&');
+
+    document.head.appendChild(script);
+
+  });
+
 }
 
 
-function renderSelectedAssignees() {
+/* =================================================
+ * PAGE
+ * ================================================= */
 
-  var container =
-    document.getElementById(
-      'assigneeList'
-    );
+async function showPage(page){
 
-  if (!container) {
-    return;
+  currentPage=page;
+
+  document.querySelectorAll('.nav button').forEach(function(btn){
+    btn.classList.remove('active');
+  });
+
+  if(page==='jobs'){
+    document.getElementById('navJobs').classList.add('active');
   }
 
+  var el=document.getElementById('page');
 
-  if (
-    selectedAssignees.length === 0
-  ) {
+  el.innerHTML=
+    '<div class="loading">'+
+    '<div class="spinner"></div>'+
+    'กำลังโหลด...'+
+    '</div>';
 
-    container.innerHTML =
-      '<div class="assignee-empty">' +
-      'ยังไม่ได้เลือกผู้รับผิดชอบ' +
+  try{
+
+    if(page==='jobs')await renderJobs();
+    if(page==='add')renderAddJob();
+    if(page==='review')await renderReview();
+    if(page==='dashboard')await renderDashboard();
+    if(page==='reminders')await renderReminders();
+    if(page==='profile')renderProfile();
+
+  }catch(error){
+
+    el.innerHTML=
+      '<div class="error">'+escapeHtml(error.message||String(error))+'</div>';
+
+  }
+
+}
+
+
+/* =================================================
+ * JOBS
+ * ================================================= */
+
+async function renderJobs(){
+
+  var data=await apiGet('myJobs',{
+    userId:currentUser.userId
+  });
+
+  var jobs=data.jobs||[];
+
+  var html='<div class="page-title">📁 งานของฉัน</div>';
+
+  if(!jobs.length){
+
+    html+='<div class="empty">ยังไม่มีงานที่รับผิดชอบ</div>';
+
+    document.getElementById('page').innerHTML=html;
+    return;
+
+  }
+
+  jobs.forEach(function(job){
+
+    html+=jobCard(job,false);
+
+  });
+
+  document.getElementById('page').innerHTML=html;
+
+}
+
+
+function jobCard(job,reviewMode){
+
+  var badgeClass='';
+
+  if(job.status==='ผ่าน')badgeClass='green';
+  else if(job.status==='ให้แก้ไข')badgeClass='red';
+  else if(job.status.indexOf('ส่งตรวจ')>=0)badgeClass='blue';
+  else badgeClass='yellow';
+
+  var button='';
+
+  if(reviewMode){
+
+    button=
+      '<div class="card-actions">'+
+      '<button onclick="openWork(\''+escapeAttr(job.workLink)+'\')">🔗 ดูงาน</button>'+
+      '<button onclick="openReview(\''+escapeAttr(job.jobId)+'\',\'approve\')">✅ ผ่าน</button>'+
+      '<button onclick="openReview(\''+escapeAttr(job.jobId)+'\',\'revision\')">🔄 แก้ไข</button>'+
       '</div>';
 
-    return;
+  }else{
 
-  }
+    if(
+      job.status==='กำลังทำ'||
+      job.status==='รอดำเนินการ'||
+      job.status==='ให้แก้ไข'||
+      job.status==='ส่งตรวจอีกครั้ง'
+    ){
 
+      var label=
+        job.status==='ให้แก้ไข'||job.status==='ส่งตรวจอีกครั้ง'
+        ?'📤 ส่งงานอีกครั้ง'
+        :'📤 ส่งงาน';
 
-  container.innerHTML =
-    '';
+      button=
+        '<div class="card-actions">'+
+        '<button onclick="openSubmit(\''+
+        escapeAttr(job.jobId)+
+        '\')">'+label+'</button>'+
+        '</div>';
 
+    }else if(
+      job.status==='ส่งตรวจ'
+    ){
 
-  selectedAssignees.forEach(
-    function(user, index) {
+      button=
+        '<div class="card-actions">'+
+        '<button onclick="openWork(\''+
+        escapeAttr(job.workLink)+
+        '\')">🔗 ดูงาน</button>'+
+        '</div>';
 
-      var chip =
-        document.createElement(
-          'div'
-        );
+    }else if(job.status==='ผ่าน'){
 
-      chip.className =
-        'assignee-chip';
-
-
-      chip.innerHTML =
-        '<span>' +
-        escapeHtml(
-          user.name ||
-          user.displayName ||
-          '-'
-        ) +
-        '</span>' +
-
-        '<button ' +
-        'type="button" ' +
-        'onclick="removeAssignee(' +
-        index +
-        ')">' +
-
-        '×' +
-
-        '</button>';
-
-
-      container.appendChild(
-        chip
-      );
+      button=
+        '<div class="card-actions">'+
+        '<button disabled>✅ ผ่านแล้ว</button>'+
+        '</div>';
 
     }
+
+  }
+
+  return(
+    '<div class="job-card">'+
+    '<h3>'+escapeHtml(job.customer)+'</h3>'+
+    '<div class="job-meta">'+
+    escapeHtml(job.jobId)+' · '+escapeHtml(job.category)+
+    '</div>'+
+    '<div class="job-desc">'+escapeHtml(job.description)+'</div>'+
+    '<div class="job-meta">'+
+    '📅 กำหนดส่ง: '+escapeHtml(job.dueDate||'-')+
+    '<br>👤 ผู้รับผิดชอบ: '+escapeHtml(job.assignees||'-')+
+    (reviewMode?'<br>📤 ส่งตรวจ: '+escapeHtml(job.submittedAt||'-'):'')+
+    '</div>'+
+    '<span class="badge '+badgeClass+'">'+escapeHtml(job.status)+'</span>'+
+    button+
+    '</div>'
   );
 
 }
 
 
-function removeAssignee(
-  index
-) {
+/* =================================================
+ * ADD JOB
+ * ================================================= */
 
-  selectedAssignees.splice(
-    index,
-    1
-  );
+function renderAddJob(){
 
+  var html=
+    '<div class="page-title">📋 เพิ่มงานใหม่</div>'+
+    '<div class="card">'+
+
+    '<div class="field">'+
+    '<label>หมวดหมู่งาน *</label>'+
+    '<select id="category">'+
+    '<option value="">เลือกหมวดหมู่</option>'+
+    categories.map(function(x){
+      return '<option value="'+escapeAttr(x)+'">'+escapeHtml(x)+'</option>';
+    }).join('')+
+    '</select>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>ลูกค้า *</label>'+
+    '<input id="customer" placeholder="ระบุชื่อลูกค้า">'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>สถานที่</label>'+
+    '<input id="location" placeholder="ระบุสถานที่">'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>รายละเอียดงาน *</label>'+
+    '<textarea id="detail" placeholder="รายละเอียดงานที่ต้องทำ"></textarea>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>ผู้รับผิดชอบ *</label>'+
+    '<div class="assignee-box">'+
+    '<div id="assigneeList" class="assignee-list"></div>'+
+    '<select id="assigneeSelect" onchange="addAssignee(this.value)">'+
+    '<option value="">+ เพิ่มผู้รับผิดชอบ</option>'+
+    users.map(function(u){
+      return '<option value="'+escapeAttr(u.userId)+'">'+
+      escapeHtml(u.name||'-')+
+      '</option>';
+    }).join('')+
+    '</select>'+
+    '</div>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>ผู้ตรวจ</label>'+
+    '<select id="reviewer">'+
+    '<option value="">เลือกผู้ตรวจ</option>'+
+    users.map(function(u){
+      return '<option value="'+escapeAttr(u.userId)+'">'+
+      escapeHtml(u.name||'-')+
+      '</option>';
+    }).join('')+
+    '</select>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>กำหนดส่ง *</label>'+
+    '<input id="dueDate" type="date">'+
+    '</div>'+
+
+    '<button id="saveJobBtn" class="button" onclick="saveJob()">เพิ่มงาน</button>'+
+    '<div id="formStatus" class="status"></div>'+
+    '<div id="formError"></div>'+
+    '</div>';
+
+  document.getElementById('page').innerHTML=html;
+
+  selectedAssignees=[];
   renderSelectedAssignees();
 
-  renderAssigneeSelect();
+}
+
+
+function addAssignee(id){
+
+  if(!id)return;
+
+  var user=users.find(function(x){
+    return x.userId===id;
+  });
+
+  if(
+    user &&
+    !selectedAssignees.some(function(x){
+      return x.userId===id;
+    })
+  ){
+    selectedAssignees.push(user);
+  }
+
+  document.getElementById('assigneeSelect').value='';
+  renderSelectedAssignees();
 
 }
 
 
-function setLoading(
-  message,
-  debug
-) {
+function renderSelectedAssignees(){
 
-  var messageEl =
-    document.getElementById(
-      'loadingMessage'
-    );
+  var el=document.getElementById('assigneeList');
 
+  if(!el)return;
 
-  var debugEl =
-    document.getElementById(
-      'debugText'
-    );
+  if(!selectedAssignees.length){
 
+    el.innerHTML=
+      '<span style="color:#999;font-size:12px">ยังไม่ได้เลือก</span>';
 
-  if (messageEl) {
-
-    messageEl.textContent =
-      message || '';
+    return;
 
   }
 
+  el.innerHTML=selectedAssignees.map(function(user,i){
 
-  if (debugEl) {
+    return(
+      '<span class="assignee-chip">'+
+      escapeHtml(user.name)+
+      '<button onclick="removeAssignee('+i+')">×</button>'+
+      '</span>'
+    );
 
-    debugEl.textContent =
-      debug || '';
+  }).join('');
+
+}
+
+
+function removeAssignee(index){
+
+  selectedAssignees.splice(index,1);
+  renderSelectedAssignees();
+
+}
+
+
+async function saveJob(){
+
+  var btn=document.getElementById('saveJobBtn');
+
+  var category=document.getElementById('category').value;
+  var customer=document.getElementById('customer').value.trim();
+  var location=document.getElementById('location').value.trim();
+  var detail=document.getElementById('detail').value.trim();
+  var reviewer=document.getElementById('reviewer').value;
+  var dueDate=document.getElementById('dueDate').value;
+
+  if(!category)return formError('กรุณาเลือกหมวดหมู่งาน');
+  if(!customer)return formError('กรุณาระบุชื่อลูกค้า');
+  if(!detail)return formError('กรุณาระบุรายละเอียดงาน');
+
+  if(!selectedAssignees.length){
+    return formError('กรุณาเลือกผู้รับผิดชอบอย่างน้อย 1 คน');
+  }
+
+  if(!dueDate)return formError('กรุณาระบุกำหนดส่ง');
+
+  btn.disabled=true;
+  btn.textContent='กำลังเพิ่มงาน...';
+
+  document.getElementById('formStatus').textContent='กำลังบันทึก...';
+  document.getElementById('formError').innerHTML='';
+
+  try{
+
+    var data=await apiGet('saveJob',{
+      category:category,
+      customer:customer,
+      location:location,
+      description:detail,
+      assigneeIds:selectedAssignees.map(function(x){
+        return x.userId;
+      }).join(','),
+      reviewerId:reviewer,
+      dueDate:dueDate,
+      reporterId:currentUser.userId
+    });
+
+    if(!data||data.success!==true){
+      throw new Error(data&&data.error?data.error:'เพิ่มงานไม่สำเร็จ');
+    }
+
+    document.getElementById('page').innerHTML=
+      '<div class="success">'+
+      '<h3>เพิ่มงานเรียบร้อยแล้ว 🎉</h3>'+
+      '<p>รหัสงาน: <b>'+escapeHtml(data.jobId)+'</b></p>'+
+      '</div>'+
+      '<button class="button" style="margin-top:10px" onclick="showPage(\'jobs\')">📁 ไปงานของฉัน</button>';
+
+  }catch(error){
+
+    formError(error.message||String(error));
+
+    btn.disabled=false;
+    btn.textContent='เพิ่มงาน';
 
   }
 
 }
 
 
-function setStatus(
-  message
-) {
+function formError(message){
 
-  var el =
-    document.getElementById(
-      'status'
-    );
+  var el=document.getElementById('formError');
 
-
-  if (el) {
-
-    el.textContent =
-      message || '';
-
+  if(el){
+    el.innerHTML='<div class="error">'+escapeHtml(message)+'</div>';
   }
 
 }
 
 
-function hideMessages() {
+/* =================================================
+ * SUBMIT
+ * ================================================= */
 
-  var success =
-    document.getElementById(
-      'successBox'
-    );
+function openSubmit(jobId){
 
+  document.getElementById('modalContent').innerHTML=
+    '<div class="modal-title">📤 ส่งงาน</div>'+
+    '<div class="field">'+
+    '<label>ลิงก์งาน *</label>'+
+    '<input id="submitLink" placeholder="วางลิงก์งานที่นี่">'+
+    '</div>'+
+    '<div class="field">'+
+    '<label>หมายเหตุ</label>'+
+    '<textarea id="submitNote" placeholder="เพิ่มหมายเหตุ (ถ้ามี)"></textarea>'+
+    '</div>'+
+    '<div class="row">'+
+    '<button class="button secondary" onclick="closeModal()">ยกเลิก</button>'+
+    '<button class="button" onclick="submitJob(\''+escapeAttr(jobId)+'\')">📤 ส่งตรวจ</button>'+
+    '</div>';
 
-  var error =
-    document.getElementById(
-      'errorBox'
-    );
-
-
-  if (success) {
-
-    success.style.display =
-      'none';
-
-  }
-
-
-  if (error) {
-
-    error.style.display =
-      'none';
-
-  }
+  openModal();
 
 }
 
 
-function showError(
-  message
-) {
+async function submitJob(jobId){
 
-  var el =
-    document.getElementById(
-      'errorBox'
-    );
+  var link=document.getElementById('submitLink').value.trim();
+  var note=document.getElementById('submitNote').value.trim();
 
-
-  if (!el) {
+  if(!link){
+    alert('กรุณาระบุลิงก์งาน');
     return;
   }
 
+  try{
 
-  el.textContent =
-    message ||
-    'เกิดข้อผิดพลาด';
+    var data=await apiGet('submitJob',{
+      userId:currentUser.userId,
+      jobId:jobId,
+      workLink:link,
+      note:note
+    });
 
+    if(!data||data.success!==true){
+      throw new Error(data&&data.error?data.error:'ส่งงานไม่สำเร็จ');
+    }
 
-  el.style.display =
-    'block';
+    closeModal();
+    await renderJobs();
+
+  }catch(error){
+
+    alert(error.message||String(error));
+
+  }
 
 }
 
 
-function showFatalError(
-  message
-) {
+/* =================================================
+ * REVIEW
+ * ================================================= */
 
-  var loading =
-    document.getElementById(
-      'loading'
-    );
+async function renderReview(){
+
+  var data=await apiGet('reviewJobs',{
+    userId:currentUser.userId
+  });
+
+  var jobs=data.jobs||[];
+
+  var html='<div class="page-title">🔔 รอตรวจ</div>';
+
+  if(!jobs.length){
+
+    html+='<div class="empty">ไม่มีงานรอตรวจ 🎉</div>';
+
+  }else{
+
+    jobs.forEach(function(job){
+      html+=jobCard(job,true);
+    });
+
+  }
+
+  document.getElementById('page').innerHTML=html;
+
+}
 
 
-  if (!loading) {
+function openReview(jobId,decision){
+
+  var title=
+    decision==='approve'
+    ?'✅ ผ่านงาน'
+    :'🔄 ส่งกลับให้แก้ไข';
+
+  var button=
+    decision==='approve'
+    ?'ยืนยันผ่านงาน'
+    :'ส่งกลับให้แก้ไข';
+
+  document.getElementById('modalContent').innerHTML=
+    '<div class="modal-title">'+title+'</div>'+
+    '<div class="field">'+
+    '<label>หมายเหตุ</label>'+
+    '<textarea id="reviewNote" placeholder="'+
+    (decision==='approve'?'หมายเหตุเพิ่มเติม (ถ้ามี)':'ระบุรายละเอียดที่ต้องแก้ไข')+
+    '"></textarea>'+
+    '</div>'+
+    '<div class="row">'+
+    '<button class="button secondary" onclick="closeModal()">ยกเลิก</button>'+
+    '<button class="button" onclick="reviewJob(\''+
+    escapeAttr(jobId)+'\',\''+
+    decision+'\')">'+button+'</button>'+
+    '</div>';
+
+  openModal();
+
+}
+
+
+async function reviewJob(jobId,decision){
+
+  var note=document.getElementById('reviewNote').value.trim();
+
+  if(
+    decision==='revision' &&
+    !note
+  ){
+    alert('กรุณาระบุหมายเหตุการแก้ไข');
     return;
   }
 
+  try{
 
-  loading.innerHTML =
+    var data=await apiGet('reviewJob',{
+      userId:currentUser.userId,
+      jobId:jobId,
+      decision:decision,
+      note:note
+    });
 
-    '<div style="font-size:40px;margin-bottom:15px;">⚠️</div>' +
+    if(!data||data.success!==true){
+      throw new Error(data&&data.error?data.error:'ดำเนินการไม่สำเร็จ');
+    }
 
-    '<div style="font-weight:600;color:#c62828;">' +
+    closeModal();
+    await renderReview();
 
-    'ไม่สามารถเปิดระบบได้' +
+  }catch(error){
 
-    '</div>' +
+    alert(error.message||String(error));
 
-    '<div style="margin-top:10px;font-size:14px;">' +
+  }
 
-    escapeHtml(message) +
+}
 
-    '</div>' +
 
-    '<button ' +
-    'class="retry-button" ' +
-    'onclick="location.reload()">' +
+/* =================================================
+ * DASHBOARD
+ * ================================================= */
 
-    'ลองใหม่อีกครั้ง' +
+async function renderDashboard(){
 
-    '</button>' +
+  var data=await apiGet('dashboard',{
+    userId:currentUser.userId
+  });
 
-    '<div class="debug">' +
+  var s=data.stats||{};
 
-    'PPM Work Plan' +
-
+  document.getElementById('page').innerHTML=
+    '<div class="page-title">📊 ภาพรวมงาน</div>'+
+    '<div class="stats">'+
+    stat('ทั้งหมด',s.total)+
+    stat('รอดำเนินการ',s.pending)+
+    stat('กำลังทำ',s.doing)+
+    stat('รอตรวจ',s.reviewing)+
+    stat('แก้ไข',s.revision)+
+    stat('ผ่าน',s.passed)+
     '</div>';
 
 }
 
 
-function escapeHtml(
-  value
-) {
+function stat(label,value){
+
+  return(
+    '<div class="stat">'+
+    '<strong>'+Number(value||0)+'</strong>'+
+    '<span>'+label+'</span>'+
+    '</div>'
+  );
+
+}
+
+
+/* =================================================
+ * REMINDERS
+ * ================================================= */
+
+async function renderReminders(){
+
+  var data=await apiGet('reminders',{
+    userId:currentUser.userId
+  });
+
+  var reminders=data.reminders||[];
+
+  var html=
+    '<div class="page-title">⏰ เตือนความจำ</div>'+
+    '<button class="button" onclick="openReminderForm()">+ สร้างการเตือน</button>'+
+    '<div style="height:12px"></div>';
+
+  if(!reminders.length){
+
+    html+='<div class="empty">ยังไม่มีการเตือน</div>';
+
+  }else{
+
+    reminders.forEach(function(r){
+
+      var badge=
+        r.status==='เสร็จ'
+        ?'green'
+        :'yellow';
+
+      html+=
+        '<div class="reminder-card">'+
+        '<h3>'+escapeHtml(r.title)+'</h3>'+
+        '<div class="reminder-meta">'+
+        '🗓 '+escapeHtml(r.date)+' '+escapeHtml(r.time)+
+        '<br>👤 '+escapeHtml(r.recipientName||'-')+
+        '<br>🔔 '+escapeHtml(r.lead)+
+        '<br>🔁 '+escapeHtml(r.repeat)+
+        '</div>'+
+        '<span class="badge '+badge+'">'+escapeHtml(r.status)+'</span>'+
+        (r.details?
+          '<div style="font-size:13px;margin-top:5px">'+escapeHtml(r.details)+'</div>':'')+
+        (r.status!=='เสร็จ'?
+          '<div class="card-actions">'+
+          '<button onclick="completeReminder(\''+escapeAttr(r.reminderId)+'\')">✅ เสร็จ</button>'+
+          '<button onclick="deleteReminder(\''+escapeAttr(r.reminderId)+'\')">🗑 ลบ</button>'+
+          '</div>':'')+
+        '</div>';
+
+    });
+
+  }
+
+  document.getElementById('page').innerHTML=html;
+
+}
+
+
+function openReminderForm(){
+
+  document.getElementById('modalContent').innerHTML=
+    '<div class="modal-title">⏰ สร้างการเตือน</div>'+
+
+    '<div class="field">'+
+    '<label>หัวข้อ *</label>'+
+    '<input id="remTitle" placeholder="เช่น โทร Follow Up ลูกค้า">'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>รายละเอียด</label>'+
+    '<textarea id="remDetails" placeholder="รายละเอียดเพิ่มเติม"></textarea>'+
+    '</div>'+
+
+    '<div class="row">'+
+    '<div class="field">'+
+    '<label>วันที่ *</label>'+
+    '<input id="remDate" type="date">'+
+    '</div>'+
+    '<div class="field">'+
+    '<label>เวลา *</label>'+
+    '<input id="remTime" type="time">'+
+    '</div>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>เตือนใคร *</label>'+
+    '<select id="remRecipient">'+
+    users.map(function(u){
+      return '<option value="'+escapeAttr(u.userId)+'">'+
+      escapeHtml(u.name||'-')+
+      '</option>';
+    }).join('')+
+    '</select>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>เตือนล่วงหน้า</label>'+
+    '<select id="remLead">'+
+    '<option>ตรงเวลา</option>'+
+    '<option>5 นาที</option>'+
+    '<option>10 นาที</option>'+
+    '<option>30 นาที</option>'+
+    '<option>1 ชั่วโมง</option>'+
+    '<option>1 วัน</option>'+
+    '</select>'+
+    '</div>'+
+
+    '<div class="field">'+
+    '<label>ทำซ้ำ</label>'+
+    '<select id="remRepeat">'+
+    '<option>ไม่ซ้ำ</option>'+
+    '<option>รายวัน</option>'+
+    '<option>รายสัปดาห์</option>'+
+    '<option>รายเดือน</option>'+
+    '</select>'+
+    '</div>'+
+
+    '<div class="row">'+
+    '<button class="button secondary" onclick="closeModal()">ยกเลิก</button>'+
+    '<button class="button" onclick="saveReminder()">💾 บันทึก</button>'+
+    '</div>';
+
+  openModal();
+
+}
+
+
+async function saveReminder(){
+
+  var title=document.getElementById('remTitle').value.trim();
+  var details=document.getElementById('remDetails').value.trim();
+  var date=document.getElementById('remDate').value;
+  var time=document.getElementById('remTime').value;
+  var recipient=document.getElementById('remRecipient').value;
+  var lead=document.getElementById('remLead').value;
+  var repeat=document.getElementById('remRepeat').value;
+
+  if(!title||!date||!time||!recipient){
+
+    alert('กรุณากรอกข้อมูลให้ครบ');
+    return;
+
+  }
+
+  try{
+
+    var data=await apiGet('saveReminder',{
+      userId:currentUser.userId,
+      title:title,
+      details:details,
+      date:date,
+      time:time,
+      recipientId:recipient,
+      lead:lead,
+      repeat:repeat
+    });
+
+    if(!data||data.success!==true){
+      throw new Error(data&&data.error?data.error:'บันทึกการเตือนไม่สำเร็จ');
+    }
+
+    closeModal();
+    await renderReminders();
+
+  }catch(error){
+
+    alert(error.message||String(error));
+
+  }
+
+}
+
+
+async function completeReminder(id){
+
+  if(!confirm('ทำเครื่องหมายว่าเสร็จแล้วใช่ไหม?'))return;
+
+  try{
+
+    var data=await apiGet('completeReminder',{
+      userId:currentUser.userId,
+      reminderId:id
+    });
+
+    if(!data.success)throw new Error(data.error||'ไม่สำเร็จ');
+
+    await renderReminders();
+
+  }catch(error){
+
+    alert(error.message||String(error));
+
+  }
+
+}
+
+
+async function deleteReminder(id){
+
+  if(!confirm('ยกเลิกการเตือนนี้ใช่ไหม?'))return;
+
+  try{
+
+    var data=await apiGet('deleteReminder',{
+      userId:currentUser.userId,
+      reminderId:id
+    });
+
+    if(!data.success)throw new Error(data.error||'ไม่สำเร็จ');
+
+    await renderReminders();
+
+  }catch(error){
+
+    alert(error.message||String(error));
+
+  }
+
+}
+
+
+/* =================================================
+ * PROFILE
+ * ================================================= */
+
+function renderProfile(){
+
+  document.getElementById('page').innerHTML=
+    '<div class="page-title">👤 โปรไฟล์</div>'+
+    '<div class="card">'+
+    '<div class="field">'+
+    '<label>LINE Display Name</label>'+
+    '<div>'+escapeHtml(currentUser.displayName||'-')+'</div>'+
+    '</div>'+
+    '<div class="field">'+
+    '<label>ชื่อในระบบ</label>'+
+    '<div>'+escapeHtml(currentUser.systemName||'-')+'</div>'+
+    '</div>'+
+    '<div class="field">'+
+    '<label>Role</label>'+
+    '<div>'+escapeHtml(currentUser.role||'Staff')+'</div>'+
+    '</div>'+
+    '</div>';
+
+}
+
+
+/* =================================================
+ * MODAL
+ * ================================================= */
+
+function openModal(){
+  document.getElementById('modal').classList.remove('hidden');
+}
+
+
+function closeModal(){
+  document.getElementById('modal').classList.add('hidden');
+}
+
+
+document.getElementById('modal').addEventListener('click',function(e){
+
+  if(e.target===this){
+    closeModal();
+  }
+
+});
+
+
+function openWork(url){
+
+  if(!url)return;
+
+  window.open(url,'_blank');
+
+}
+
+
+/* =================================================
+ * UTIL
+ * ================================================= */
+
+function setLoading(message,debug){
+
+  document.getElementById('loadingText').textContent=message||'';
+
+  document.getElementById('debugText').textContent=debug||'';
+
+}
+
+
+function escapeHtml(value){
 
   return String(
-    value === undefined ||
-    value === null
-      ? ''
-      : value
+    value===undefined||value===null?'':value
   )
+  .replace(/&/g,'&amp;')
+  .replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;')
+  .replace(/'/g,'&#039;');
 
-    .replace(
-      /&/g,
-      '&amp;'
-    )
+}
 
-    .replace(
-      /</g,
-      '&lt;'
-    )
 
-    .replace(
-      />/g,
-      '&gt;'
-    )
+function escapeAttr(value){
 
-    .replace(
-      /"/g,
-      '&quot;'
-    )
-
-    .replace(
-      /'/g,
-      '&#039;'
-    );
+  return escapeHtml(value)
+    .replace(/\\/g,'\\\\');
 
 }
 
